@@ -1,26 +1,37 @@
 <template lang="html">
     <ul class="menu--dropdown">
-        <template v-for="item in menuCategories">
-            <menu-dropdown v-if="item.subMenu" :menu-data="item" />
-            <menu-mega v-else-if="item.mega" :menu-data="item" />
-            <li v-else :key="item.text">
-                <nuxt-link :to="localePath(item.url)">
-                    {{ item.text }}
+        <template v-for="item in groups" v-if="!loading">
+            <menu-dropdown v-if="item.hasTwo" :menu-data="item" />
+            <menu-mega v-else-if="item.hasThree" :menu-data="item" />
+            <li v-else :key="item.id" class="cairo">
+                <nuxt-link :to="{path:'/shop',query:{GroupCode:item.id}}">
+                    {{ item.GroupName }}
                 </nuxt-link>
             </li>
         </template>
+        <div v-else>
+            Loading
+        </div>
     </ul>
 </template>
 
 <script>
 import MenuDefault from '~/components/shared/menu/MenuDefault';
-import MenuDropdown from '~/components/shared/menu/MenuDropdown';
-import MenuMega from '~/components/shared/menu/MenuMega';
+import MenuDropdown from '~/components/shared/menu/MenuDropdown2';
+import MenuMega from '~/components/shared/menu/MenuMega2';
+import { mapGetters } from "vuex";
 export default {
     name: 'MenuCategories',
     components: { MenuMega, MenuDropdown, MenuDefault },
+    computed: {
+         ...mapGetters({
+            loading: 'collection/threeLayersLoading',
+        })
+    },
+    
     data() {
         return {
+            groups : [],
             menuCategories: [
                 {
                     icon: 'icon-star',
@@ -251,7 +262,13 @@ export default {
                 }
             ]
         };
-    }
+    },
+    created(){
+        this.$store.dispatch('collection/getGroupsThreeLayers')
+        .then(d => {
+            this.groups = d
+        })
+    },
 };
 </script>
 

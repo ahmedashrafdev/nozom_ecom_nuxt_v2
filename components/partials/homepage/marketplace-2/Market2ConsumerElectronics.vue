@@ -1,30 +1,15 @@
 <template lang="html">
     <section
         class="ps-product-list ps-section--carousel-outside"
-        id="place2-consumer-electronic"
+        :id="`place2-consumer-electronic`"
     >
         <div class="container">
             <div class="ps-section__header">
-                <h3>Consumer Electronics</h3>
+                <h3>{{group.GroupName}}</h3>
                 <ul class="ps-section__links">
                     <li>
-                        <nuxt-link to="/shop">
-                            New Arrivals
-                        </nuxt-link>
-                    </li>
-                    <li>
-                        <nuxt-link to="/shop">
-                            Best seller
-                        </nuxt-link>
-                    </li>
-                    <li>
-                        <nuxt-link to="/shop">
-                            Must Popular
-                        </nuxt-link>
-                    </li>
-                    <li>
-                        <nuxt-link to="/shop">
-                            View All
+                        <nuxt-link :to="`/shop?GroupCode=${group.id}`" >
+                            {{$t('view_all')}}
                         </nuxt-link>
                     </li>
                 </ul>
@@ -33,7 +18,7 @@
                 <carousel-arrows type="simple" />
                 <div class="ps-carousel" v-swiper:mySwiper="carouselSetting">
                     <div class="swiper-wrapper">
-                        <div class="swiper-slide" v-for="product in products">
+                        <div class="swiper-slide" v-for="product in group.products">
                             <product-default :product="product" />
                         </div>
                     </div>
@@ -44,10 +29,9 @@
 </template>
 
 <script>
-import ProductDefault from '~/components/elements/product/ProductDefault';
+import ProductDefault from '~/components/elements/product/ProductDefault2';
 import { mapState } from 'vuex';
 import { carouselStandard } from '~/utilities/carousel-helpers';
-import { getColletionBySlug } from '~/utilities/product-helper';
 import CarouselArrows from '~/components/elements/commons/CarouselArrows';
 
 export default {
@@ -57,6 +41,10 @@ export default {
         collectionSlug: {
             type: String,
             default: ''
+        },
+        group: {
+            type : Object,
+            required : true
         }
     },
     computed: {
@@ -64,9 +52,9 @@ export default {
             categories: state => state.collection.categories
         }),
 
-        products() {
-            return getColletionBySlug(this.categories, this.collectionSlug);
-        }
+        // products() {
+        //     return getColletionBySlug(this.categories, this.collectionSlug);
+        // }
     },
     data() {
         return {
@@ -76,9 +64,10 @@ export default {
                     nextEl: '#place2-consumer-electronic .swiper-next',
                     prevEl: '#place2-consumer-electronic .swiper-prev'
                 }
-            }
+            },
+            
         };
-    }
+    },
 };
 </script>
 <style lang="scss" scoped></style>

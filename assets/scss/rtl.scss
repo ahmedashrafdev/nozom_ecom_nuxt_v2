@@ -55,4 +55,19 @@ html .ar{
         right: auto !important;
         left: 0 !important;
     }
+
+    & .ps-form--quick-search .ps-form__categories select.form-control{
+        padding-left: 30px;
+        padding-right: 0!important;
+        border-radius: 0 4px 4px 0 !important;
+
+    }
+    & .ps-form--quick-search .ps-form__categories::after {
+        right: 0 !important;
+        left: 8px;
+    }
+    & .menu-item-has-children:hover ul.sub-menu{
+        right: 100%!important;
+        left: auto!important;
+    }
 }

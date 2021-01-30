@@ -5,10 +5,15 @@
         v-click-outside="handleClickOutside"
     >
         <div class="ps-form__categories">
-            <select class="form-control">
-                <option v-for="item in exampleCategories" :value="{ item }">
-                    {{ item }}
+            <select class="form-control" v-model="group">
+                <option :value="null">
+                    {{$t('all')}}
                 </option>
+                <option v-for="item in groups" :value="item.id" v-if="!loading">
+                    {{ item.GroupName }}
+                </option>
+                <span v-else>{{$t('loading')}}</span>
+                    
             </select>
         </div>
         <div class="ps-form__input">
@@ -16,7 +21,7 @@
                 v-model="searchText"
                 class="form-control"
                 type="text"
-                placeholder="I'm shopping for..."
+                :placeholder="$t('search_placeholder')"
                 @keyup="handleSearchProduct"
             />
             <v-progress-circular
@@ -44,11 +49,11 @@
                         :key="product.id"
                     />
                 </template>
-                <span>Not found! Try with another keyword.</span>
+                <span>{{$t('search_notfound')}}</span>
             </div>
             <div class="ps-panel__footer text-center">
-                <nuxt-link to="/search">
-                    See all results
+                <nuxt-link :to="`/shop?search=${searchText}&GroupCode=${group}`">
+                    {{$t('see_all')}}
                 </nuxt-link>
             </div>
         </div>
@@ -56,77 +61,22 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
-import ProductResult from '~/components/elements/product/ProductResult';
+import { mapState , mapGetters } from 'vuex';
+import ProductResult from '~/components/elements/product/ProductResult2';
 
 export default {
     name: 'SearchHeader',
     components: { ProductResult },
     computed: {
-        ...mapState({
-            searchResults: state => state.product.searchResults
+        ...mapGetters({
+            loading: 'collection/loading',
         })
     },
     data() {
         return {
-            exampleCategories: [
-                'All',
-                'Babies & Moms',
-                'Books & Office',
-                'Cars & Motocycles',
-                'Clothing & Apparel',
-                ' Accessories',
-                'Bags',
-                'Kid’s Fashion',
-                'Mens',
-                'Shoes',
-                'Sunglasses',
-                'Womens',
-                'Computers & Technologies',
-                'Desktop PC',
-                'Laptop',
-                'Smartphones',
-                'Consumer Electrics',
-                'Air Conditioners',
-                'Accessories',
-                'Type Hanging Cell',
-                'Audios & Theaters',
-                'Headphone',
-                'Home Theater System',
-                'Speakers',
-                'Car Electronics',
-                'Audio & Video',
-                'Car Security',
-                'Radar Detector',
-                'Vehicle GPS',
-                'Office Electronics',
-                'Printers',
-                'Projectors',
-                'Scanners',
-                'Store & Business',
-                'Refrigerators',
-                'TV Televisions',
-                '4K Ultra HD TVs',
-                'LED TVs',
-                'OLED TVs',
-                'Washing Machines',
-                'Type Drying Clothes',
-                'Type Horizontal',
-                'Type Vertical',
-                'Garden & Kitchen',
-                'Cookware',
-                'Decoration',
-                'Furniture',
-                'Garden Tools',
-                'Home Improvement',
-                'Powers And Hand Tools',
-                'Utensil & Gadget',
-                'Health & Beauty',
-                'Equipments',
-                'Hair Care',
-                'Perfumer',
-                'Wine Cabinets'
-            ],
+            groups : [],
+            searchResults: [],
+            group:null,
             isSearching: false,
             isLoading: false,
             searchText: ''
@@ -134,24 +84,25 @@ export default {
     },
     methods: {
         async handleSearchProduct(e) {
-            if (e.target.value !== '') {
+            if (e.target.value.length > 2) {
                 this.isSearching = true;
                 const query = {
-                    title_contains: e.target.value
+                    Search: e.target.value
                 };
+                this.group != null ? query.GroupCode = this.group : ''
                 this.isLoading = true;
-                const result = await this.$store.dispatch(
-                    'product/getProductByKeyword',
-                    query
-                );
-                if (result) {
-                    setTimeout(
-                        function() {
-                            this.isLoading = false;
-                        }.bind(this),
-                        500
-                    );
-                }
+                setTimeout(()=>{
+                    this.$store.dispatch('myProduct/searchProducts',query)
+                    .then(d => {
+                        this.searchResults = d
+                        setTimeout(
+                            function() {
+                                this.isLoading = false;
+                            }.bind(this),
+                            500
+                        );
+                    });
+                }, 2000)
             } else {
                 this.isSearching = false;
             }
@@ -167,6 +118,12 @@ export default {
                 this.$router.push(`/search?keyword=${this.searchText}`);
             }
         }
+    },
+    created(){
+        this.$store.dispatch('collection/getGroups' , {})
+        .then(d => {
+            this.groups = d
+        })
     }
 };
 </script>

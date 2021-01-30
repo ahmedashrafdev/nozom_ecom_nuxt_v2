@@ -9,24 +9,10 @@
         <market-place2-promotions />
         <market2-consumer-electronics
             v-if="categories !== null"
-            collection-slug="consumer-electrics"
+            v-for="group in homeGroups"
+            :group="group"
         />
-        <market2-clothing
-            v-if="categories !== null"
-            collection-slug="clothing-and-parel"
-        />
-        <market2-computer-and-technology
-            v-if="categories !== null"
-            collection-slug="computers-and-technologies"
-        />
-        <market2-garden-and-kitchen
-            v-if="categories !== null"
-            collection-slug="garden-and-kitchen"
-        />
-        <market2-healthy-and-beauty
-            v-if="categories !== null"
-            collection-slug="health-and-beauty"
-        />
+        
         <market-place2-download />
     </main>
 </template>
@@ -71,6 +57,11 @@ export default {
             categories: state => state.collection.categories
         })
     },
+    data(){
+        return {
+            homeGroups : []
+        }
+    },
     async created() {
         const collectionsSlug = ['deal-of-the-day'];
         const categoriesSlug = [
@@ -89,6 +80,11 @@ export default {
             'collection/getCategoriesBySlugs',
             categoriesSlug
         );
+
+        this.$store.dispatch('collection/getGroups' , {home : 1})
+        .then(d => {
+            this.homeGroups = d
+        })
     }
 };
 </script>

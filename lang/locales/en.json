@@ -1,11 +1,36 @@
 {
+    "top_cats" :"Top Categories Of The Month", 
+    "shopping_now" : "Shopping now",
+    "deal_of_day" : "Deal of the day",
+    "view_all" : "view all",
+    "all_cats": "All Categories",
+    "store_location" : "store location",
+    "en_at" : "end at",
+    "all" : "all",
+    "add_to_Cart":"add to cart",
+    "wishlist":"wishlist",
+    "view":"view",
+    "loading" : "loading",
+    "search_placeholder" : "I'm shopping for...",
+    "see_all" : "see all results",
+    "shopPage" : "shop page",
+    "products_not_found":" Products found",
+    "from":" From",
+    "to":" To",
+    "sort_by":"sort by",
+    "sort_latest": "Sort by latest",
+    "sort_price_low": "Sort by price: low to high",
+    "sort_high": "Sort by price: high to low",
+    "search_notfound":"Not found! Try with another keyword.",
+    "wellcomeText": "Welcome to Nozom Online Shopping Store !",
+
     "header": {
         "shopByDepartment": "Shop by Department",
-        "wellcomeText": "Welcome to Martfury Online Shopping Store !",
+        "wellcomeText": "Welcome to Nozom Online Shopping Store !",
         "login": "Login",
         "register": "Register",
         "navigationExtra": {
-            "sellOnMartfury": "Sell on Martfury",
+            "sellOnMartfury": "Sell on Nozom",
             "trackYourOrder": "Track Your Order"
         },
         "miniCart": {
@@ -16,7 +41,7 @@
         }
     },
     "footer": {
-        "copyright": "&copy; 2020 Martfury. All Rights Reserved",
+        "copyright": "&copy; 2020 Nozom. All Rights Reserved",
         "widgetHeading": {
             "quickLink": "Quick links",
             "company": "Company",
@@ -181,7 +206,7 @@
             }
         },
         "downloadApp": {
-            "heading": "Download Martfury App Now!",
+            "heading": "Download Nozom App Now!",
             "content": "Shopping fastly and easily more with our  app. Get a link to download the app on your phone"
         },
         "newsLetter": {
@@ -314,7 +339,7 @@
             "freeReturn": "Free 7-day return if eligible, so easy",
             "supplier": "Supplier give bills for this product.",
             "payOnline": "Pay online or when receiving goods",
-            "sellOnMartfury": "Sell on Martfury",
+            "sellOnMartfury": "Sell on Nozom",
             "registerNow": "Register Now !"
         }
     },

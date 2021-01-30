@@ -73,17 +73,17 @@ export default {
             return getColletionBySlug(this.categories, this.collectionSlug);
         }
     },
-    data() {
-        return {
-            carouselSetting: {
-                ...carouselStandard,
-                navigation: {
-                    nextEl: '#market2-beauty .swiper-next',
-                    prevEl: '#market2-beauty .swiper-prev'
-                }
-            }
-        };
-    }
+    // data() {
+    //     return {
+    //         carouselSetting: {
+    //             ...carouselStandard,
+    //             navigation: {
+    //                 nextEl: '#market2-beauty .swiper-next',
+    //                 prevEl: '#market2-beauty .swiper-prev'
+    //             }
+    //         }
+    //     };
+    // }
 };
 </script>
 <style lang="scss" scoped></style>

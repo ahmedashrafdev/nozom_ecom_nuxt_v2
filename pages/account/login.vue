@@ -36,6 +36,7 @@ export default {
         Login,
         BreadCrumb
     },
+    layout: 'layout-market-place-2',
     transition: 'zoom',
     data: () => {
         return {
@@ -49,6 +50,9 @@ export default {
                 }
             ]
         };
+    },
+    created(){
+        this.$auth.loggedIn ? this.$router.push('/') : ''
     }
 };
 </script>

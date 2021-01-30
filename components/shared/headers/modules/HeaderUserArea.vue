@@ -1,5 +1,5 @@
 <template lang="html">
-    <div v-if="!isLoggedIn" class="ps-block--user-header">
+    <div v-if="!$auth.loggedIn" class="ps-block--user-header">
         <div class="ps-block__left">
             <i class="icon-user"></i>
         </div>
@@ -72,8 +72,8 @@ export default {
         };
     },
     methods: {
-        handleLogout() {
-            this.$store.dispatch('auth/setAuthStatus', false);
+        async handleLogout() {
+            await this.$auth.logout();
         }
     }
 };

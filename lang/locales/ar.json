@@ -1,119 +1,121 @@
 {
+    "all_cats": "كل الاقسام",
+    "top_cats" :"اهم الاقسام", 
     "header": {
-        "shopByDepartment": "Shop by Department",
+        "shopByDepartment": "تسوق بالمجموعة",
         "wellcomeText": "Welcome to Martfury Online Shopping Store !",
-        "login": "Login",
-        "register": "Register",
+        "login": "تسجيل الدخول",
+        "register": "إنشاء حساب جديد",
         "navigationExtra": {
-            "sellOnMartfury": "Sell on Martfury",
-            "trackYourOrder": "Track Your Order"
+            "sellOnMartfury": "بيع منتجاتك علي متجرنا",
+            "trackYourOrder": "تابع طلبك"
         },
         "miniCart": {
-            "subTotal": "Sub Total:",
-            "viewCart": "View Cart",
-            "checkout": "Checkout",
-            "noProduct": "No products in cart"
+            "subTotal": "الإجمالي:",
+            "viewCart": " عرض عربة التسوق",
+            "checkout": "اتمام عملية الدفع",
+            "noProduct": "لا يوجد منتجات في عربة التسوق"
         }
     },
     "footer": {
-        "copyright": "&copy; 2020 Martfury. All Rights Reserved",
+        "copyright": "جميع الحقوق محفوظة - Powered by El Nozom Enterprise RMS",
         "widgetHeading": {
-            "quickLink": "Quick links",
-            "company": "Company",
+            "quickLink": "روابط مختصرة ",
+            "company": "الشركة",
             "bussiness": "Business",
-            "contactUs": "Contact us"
+            "contactUs": " نواصل معنا"
         },
         "widgetLinks": {
-            "policy": "Policy",
-            "termAndCondition": "Term & Condition",
-            "shipping": "Shipping",
-            "return": "Return",
-            "faqs": "FAQs",
-            "aboutUs": "About Us",
-            "affilate": "Affilate",
-            "career": "Career",
-            "contact": "Contact",
-            "ourPress": "Our Press",
-            "checkout": "Checkout",
-            "myAccount": "My account",
-            "shop": "Shop"
+            "policy": "السياسات",
+            "termAndCondition": "الشروط و الأحكام",
+            "shipping": "الشحن",
+            "return": "الإرتجاع",
+            "faqs": "الاسئلة المكررة",
+            "aboutUs": "عنا",
+            "affilate": "الفروع",
+            "career": "اعمالنا",
+            "contact": "تواصل معنا",
+            "ourPress": "اخبارنا ",
+            "checkout": "اتمام عملية الدفع",
+            "myAccount": "حسابي ",
+            "shop": "المتجر"
         }
     },
     "menu": {
         "navigationList": {
-            "menu": "Menu",
-            "categories": "Categories",
-            "search": "Search",
-            "cart": "Cart"
+            "menu": "القائمة",
+            "categories": "مجموعات الأصناف",
+            "search": "البحث",
+            "cart": "عربة التسوق"
         },
-        "mainMenu": {
-            "home": "Home",
-            "marketplaceFullWidth": "Marketplace Full Width",
-            "homeAutoParts": "Home Auto Parts",
-            "homeTechnology": "Home Technology",
-            "homeOrganic": "Home Organic",
-            "homeMarketplaceV1": "Home Marketplace V1",
-            "homeMarketplaceV2": "Home Marketplace V2",
-            "homeMarketplaceV3": "Home Marketplace V3",
-            "homeMarketplaceV4": "Home Marketplace V4",
-            "homeElectronic": "Home Electronic",
-            "homeFurniture": "Home Furniture",
-            "shop": "Shop",
-            "catalogPages": "Catalog Pages",
-            "shopDefault": "Shop Default",
-            "shopFullwidth": "Shop Fullwidth",
-            "shopCategories": "Shop Categories",
-            "shopSidebar": "Shop Sidebar",
-            "shopWithoutBanner": "Shop Without Banner",
-            "shopCarousel": "Shop Carousel",
-            "productLayout": "Product Layout",
-            "default": "Default",
-            "extended": "Extended",
-            "fullContent": "Full Content",
-            "boxed": "Boxed",
-            "sidebar": "Sidebar",
-            "fullwidth": "Fullwidth",
-            "productTypes": "Product Types",
-            "simple": "Simple",
-            "imagesSwatches": "Images Swatches",
-            "countdown": "Countdown",
-            "affiliate": "Affiliate",
-            "onSale": "On sale",
-            "videoFeatured": "Video Featured",
-            "grouped": "Grouped",
-            "outOfStock": "Out Of Stock",
-            "ecomercePages": "Ecomerce Pages",
-            "shoppingCart": "Shopping Cart",
-            "checkout": "Checkout",
-            "whishlist": "Whishlist",
-            "compare": "Compare",
-            "orderTracking": "Order Tracking",
-            "myAccount": "My Account",
-            "loginOrregister": "Login / Register",
-            "pages": "Pages",
-            "basicPage": "Basic Page",
-            "aboutUs": "About Us",
-            "contact": "Contact",
-            "faqs": "Faqs",
-            "404": "404 Page",
-            "vendorPages": "Vendor Pages",
-            "becomeAVendor": "Become a Vendor",
-            "vendorStore": "Vendor Store",
-            "storeList": "Store List",
-            "storeList2": "Store List2",
-            "blogs": "Blogs",
-            "blogLayout": "Blog Layout",
-            "grid": "Grid",
-            "list": "List",
-            "smallThumb": "Small Thumb",
-            "leftSidebar": "Left Sidebar",
-            "rightSidebar": "Right Sidebar",
-            "singleBlog": "Single Blog",
-            "single1": "Single 1",
-            "single2": "Single 2",
-            "single3": "Single 3",
-            "single4": "Single 4"
-        },
+      "mainMenu": {
+        "home": "الرئيسية",
+        "marketplaceFullWidth": "Marketplace Full Width",
+        "homeAutoParts": "Home Auto Parts",
+        "homeTechnology": "Home Technology",
+        "homeOrganic": "Home Organic",
+        "homeMarketplaceV1": "Home Marketplace V1",
+        "homeMarketplaceV2": "Home Marketplace V2",
+        "homeMarketplaceV3": "Home Marketplace V3",
+        "homeMarketplaceV4": "Home Marketplace V4",
+        "homeElectronic": "Home Electronic",
+        "homeFurniture": "Home Furniture",
+        "shop": "Shop",
+        "catalogPages": "Catalog Pages",
+        "shopDefault": "Shop Default",
+        "shopFullwidth": "Shop Fullwidth",
+        "shopCategories": " مجموعات المتجر ",
+        "shopSidebar": "Shop Sidebar",
+        "shopWithoutBanner": "Shop Without Banner",
+        "shopCarousel": "Shop Carousel",
+        "productLayout": "Product Layout",
+        "default": "Default",
+        "extended": "Extended",
+        "fullContent": "Full Content",
+        "boxed": "Boxed",
+        "sidebar": "Sidebar",
+        "fullwidth": "Fullwidth",
+        "productTypes": " انواع المنتجات",
+        "simple": "Simple",
+        "imagesSwatches": "Images Swatches",
+        "countdown": "Countdown",
+        "affiliate": "Affiliate",
+        "onSale": "عرض",
+        "videoFeatured": "Video Featured",
+        "grouped": "مجمعة",
+        "outOfStock": " غير متوفر ",
+        "ecomercePages": "صفحات التسوق الإلكتروني ",
+        "shoppingCart": " عربة التسوق",
+        "checkout": "اتمام الدفع",
+        "whishlist": "قائمة متمنياتي",
+        "compare": "مقارنة",
+        "orderTracking": "تتبع الطلب ",
+        "myAccount": "حسابي",
+        "loginOrregister": "تسجيل الدخول - إنشاء حساب",
+        "pages": "الصفحات",
+        "basicPage": "Basic Page",
+        "aboutUs": " عنا",
+        "contact": "تواصل",
+        "faqs": "الأسئلة المكررة",
+        "404": "حدث خطا 404 - غير موجودة",
+        "vendorPages": "صفحات للمورد",
+        "becomeAVendor": "انضم لموردينا",
+        "vendorStore": "سوق الجملة",
+        "storeList": "Store List",
+        "storeList2": "Store List2",
+        "blogs": "Blogs",
+        "blogLayout": "Blog Layout",
+        "grid": "Grid",
+        "list": "List",
+        "smallThumb": "Small Thumb",
+        "leftSidebar": "Left Sidebar",
+        "rightSidebar": "Right Sidebar",
+        "singleBlog": "Single Blog",
+        "single1": "Single 1",
+        "single2": "Single 2",
+        "single3": "Single 3",
+        "single4": "Single 4"
+      },
         "menuCategories": {
             "hotPromotions": "Hot Promotions",
             "consumerElectronic": "Consumer Electronic",
@@ -155,34 +157,34 @@
         }
     },
     "common": {
-        "viewAll": "View all",
-        "subscribe": "Subscribe",
-        "categories": "Categories",
+        "viewAll": "عرض الكل",
+        "subscribe": "اشتراك",
+        "categories": "مجموعات الأصناف",
         "siteFeatures": {
             "freeDelivery": {
-                "key": "Free Delivery",
-                "value": "For all orders over $99"
+                "key": "شحن مجاني",
+                "value": ""
             },
             "dateReturn": {
-                "key": "90 Days Return",
-                "value": "If goods have problems"
+                "key": "الإرتجاع خلال 30 يوم",
+                "value": "بأصل البون"
             },
             "securePayment": {
-                "key": "Secure Payment",
-                "value": "100% secure payment"
+                "key": "دفع امن",
+                "value": "100%"
             },
             "support": {
-                "key": "24/7 Support",
-                "value": "Dedicated support"
+                "key": "خدمة العملاء علي مدار الساعة",
+                "value": "اذا واجهتك مشكلة قم بالإتصال بنا"
             },
             "giftService": {
-                "key": "Gift Service",
+                "key": "خدمة الهدايا",
                 "value": "Support gift service"
             }
         },
         "downloadApp": {
-            "heading": "Download Martfury App Now!",
-            "content": "Shopping fastly and easily more with our  app. Get a link to download the app on your phone"
+            "heading": "حمل تطبيقنا الأن",
+            "content": "تسوقك اصبح اسهل, احصل علي رابط لتحميل تطبقنا"
         },
         "newsLetter": {
             "heading": "Newsletter",
@@ -193,9 +195,9 @@
         "consumerElectronics": {
             "heading": "Consumer Electronics",
             "links": {
-                "newArrivals": "New Arrivals",
-                "bestSeller": "Best seller",
-                "mustPopular": "Must Popular"
+                "newArrivals": "منتجات جديدة",
+                "bestSeller": "الأكثر مبيعاً ",
+                "mustPopular": "المنتجات الرائجة"
             }
         },
         "clothing": {
@@ -205,7 +207,7 @@
             "heading": "Home, Garden & Kitchen"
         },
         "newArrivals": {
-            "heading": "Hot New Arrivals",
+            "heading": "منتجات جديدة",
             "links": {
                 "technologies": "Technologies",
                 "electronic": "Electronic",
@@ -216,19 +218,19 @@
         }
     },
     "autopart": {
-        "bestSellerBrands": "BEST SELLER BRANDS",
-        "topCategories": "top categories of the month",
-        "dealHotToday": "Deal of hot today",
-        "topBestSeller": "Top 20 Best Seller",
-        "recommendedForYou": "RECOMMENDED FOR YOU",
-        "bestSellers": "Best Sellers",
-        "newArrivals": "New Arrivals",
-        "topRated": "Top Rated",
+        "bestSellerBrands": "افضل الماركات مبيعا",
+        "topCategories": "اكثر مجموعات رائجة لهذا الشهر",
+        "dealHotToday": "عرض اليوم",
+        "topBestSeller": "افضل 20 منتج مبيعاً",
+        "recommendedForYou": "منتجات لك خصيصا",
+        "bestSellers": "الأفضل مبيعاً",
+        "newArrivals": "منتجات جديدة",
+        "topRated": "المنتجات الأعلي تقيماً",
         "trendingProducts": "Trending Products"
     },
     "electronic": {
-        "bestSellerInTheLastMonth": "Best Seller In The Last Month",
-        "dealHotToday": "Deal of hot today",
+        "bestSellerInTheLastMonth": "الأفضل مبيعا خلال الشهر الماضي",
+        "dealHotToday": "عروض اليوم",
         "homeElectronics": "Home Electronics",
         "link": {
             "top20": "Top 20",
@@ -261,10 +263,10 @@
         "trendingProducts": "Trending Products"
     },
     "marketPlace": {
-        "dealHotToday": "Deal of hot today"
+        "dealHotToday": "عروض اليوم"
     },
     "shop": {
-        "productFound": "Products found",
+        "productFound": "المنتجات التي تم ايجادها",
         "dealHot": "Top Deals Super Hot Today",
         "bestSaleOfMonth": "Best Seller In The Last Months",
         "newArrivals": "New Arrivals",
@@ -300,27 +302,27 @@
             }
         },
         "widget": {
-            "categories": "Categories",
-            "byBrands": "By Brands",
-            "byPrice": "By Price",
-            "price": "Price"
+            "categories": "تصنيفات المنتجات",
+            "byBrands": "بالماركة",
+            "byPrice": "بالسعر",
+            "price": "سعر"
         }
     },
     "product": {
-        "customerBought": "Customers who bought this item also bought",
+        "customerBought": "من اشتري هذا المنتج ايضا اشتري",
         "relatedProducts": "Related products",
         "widget": {
-            "shippingWorldwide": "Shipping worldwide",
-            "freeReturn": "Free 7-day return if eligible, so easy",
+            "shippingWorldwide": "شحن دولي",
+            "freeReturn": "يمكنك ارجاع المنتج خلال 14 يوم مجاناً",
             "supplier": "Supplier give bills for this product.",
-            "payOnline": "Pay online or when receiving goods",
-            "sellOnMartfury": "Sell on Martfury",
-            "registerNow": "Register Now !"
+            "payOnline": "الدفع عند الأستلام",
+            "sellOnMartfury": "بيع منتجاتك علي متجرنا",
+            "registerNow": "سجل الأن"
         }
     },
     "blog": {
         "categories": {
-            "all": "All",
+            "all": "كل المجموعات",
             "lifeStyle": "Life Style",
             "technology": "Technology",
             "entertaiment": "Entertaiment",
@@ -335,44 +337,44 @@
             "awardDesc": "Industry leaders and influencers recognize Overstock as one of the most trust worthy retail companies in the U.S., ranking high for both customer and employee satisfaction."
         },
         "contact": {
-            "getInTouch": "Get In Touch",
-            "contactUsForAnyQuestions": "Contact Us For Any Questions",
-            "contactDirectly": "Contact Directly",
-            "headQuater": "Head Quater",
-            "workWithUs": "Work With Us",
-            "sendCv": "Send your CV to our email",
-            "customerService": "Customer Service",
-            "mediaRelations": "Media Relations",
-            "vendorSupport": "Vendor Support",
+            "getInTouch": "تواصل معنا",
+            "contactUsForAnyQuestions": "للأسئلة تواصل معنا",
+            "contactDirectly": "التواصل مباشرة",
+            "headQuater": "موقعنا",
+            "workWithUs": "اعمل معنا",
+            "sendCv": "ارسال السيرة الذاتية الي بريدنا الألكتروني",
+            "customerService": " خدمة العملاء",
+            "mediaRelations": "",
+            "vendorSupport": "دعم الموردين",
             "form": {
-                "name": "Name",
-                "email": "Email",
-                "subject": "Subject",
-                "message": "Message",
-                "sendMessage": "Send message"
+                "name": "الأسم",
+                "email": "البريد الألكتروني",
+                "subject": "عنوان الرسالة",
+                "message": "الرسالة",
+                "sendMessage": " ارسال الرسالة"
             }
         }
     },
     "account": {
-        "checkoutInformation": "Checkout Information",
+        "checkoutInformation": "بيانات اتمام الدفع",
         "compare": {
-            "compareProduct": "Compare Product",
-            "compareEmpty": "Compare list is empty!"
+            "compareProduct": "مقارنة منتج",
+            "compareEmpty": "قائمة المقارنة فارغة"
         },
-        "orderTracking": {
-            "heading": "Order Tracking",
-            "desc": "To track your order please enter your Order ID in the box below and press the Track button. This was given to you on your receipt and in the confirmation email you should have received.",
-            "orderId": "Order ID",
-            "billingEmail": "Billing Email",
-            "trackYourOrder": "Track Your Order"
-        },
+      "orderTracking": {
+        "heading": "تتبع الطلب",
+        "desc": "لتتبع طلبك يرجي ادخال رقم الطلب و ضغط تتبع. هذا الرقم مكتوب علي فاتورتك التي تم ارسالها لك",
+        "orderId": "رقم الطلب",
+        "billingEmail": "بريد الدفع الألكتروني",
+        "trackYourOrder": "تتبع طلبك"
+      },
         "quicklink": {
-            "accountInformation": "Account Information",
-            "notifications": "Notifications",
-            "invoices": "Invoices",
-            "address": "Address",
-            "recentViewedProduct": "Address",
-            "wishlist": "Address"
+            "accountInformation": "بيانات الحساب",
+            "notifications": "الإشعارات",
+            "invoices": "الفواتير",
+            "address": "العنوان",
+            "recentViewedProduct": "العنوان",
+            "wishlist": "العنوان"
         }
     }
 }

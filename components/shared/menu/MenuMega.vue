@@ -1,6 +1,6 @@
 <template>
     <li class=" menu-item-has-children has-mega-menu">
-        <nuxt-link :to="localePath(menuData.url)">
+        <nuxt-link :to="localePath(menuData.url)" class="cairo">
             {{ menuData.text }}
         </nuxt-link>
         <div class="mega-menu">

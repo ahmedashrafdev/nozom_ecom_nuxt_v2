@@ -4,11 +4,11 @@
             <div class="ps-section__header">
                 <div class="ps-block--countdown-deal">
                     <div class="ps-block__left">
-                        <h3>Deal of the day</h3>
+                        <h3>{{$t('deal_of_day')}}</h3>
                     </div>
                     <div class="ps-block__right">
                         <figure>
-                            <figcaption>End in:</figcaption>
+                            <figcaption>{{$t('end_at')}}:</figcaption>
                             <count-down-simple
                                 time="12 30 2020, 6:00 am"
                                 time-format="MM DD YYYY, h:mm a"
@@ -17,16 +17,17 @@
                     </div>
                 </div>
                 <nuxt-link to="/shop">
-                    <a>View all</a>
+                    <a>{{$t('view_all')}}</a>
                 </nuxt-link>
             </div>
             <div class="ps-section__content">
                 <carousel-arrows type="simple" />
                 <div class="ps-carousel " v-swiper:mySwiper="carouselSetting">
                     <div class="swiper-wrapper">
-                        <div class="swiper-slide" v-for="product in products">
+                        <div class="swiper-slide" v-if="!loading" v-for="product in products">
                             <product-default :product="product" />
                         </div>
+                        <div v-else>Loading</div>
                     </div>
                     <!--Carousel controls-->
                     <div class="swiper-pagination swiper-pagination-bullets" />
@@ -37,7 +38,7 @@
 </template>
 
 <script>
-import ProductDefault from '~/components/elements/product/ProductDefault';
+import ProductDefault from '~/components/elements/product/ProductDefault2';
 import { mapState } from 'vuex';
 import { carouselStandard } from '~/utilities/carousel-helpers';
 import { getColletionBySlug } from '~/utilities/product-helper';
@@ -63,10 +64,19 @@ export default {
         carouselSetting() {
             return carouselStandard;
         },
-
-        products() {
-            return getColletionBySlug(this.collections, this.collectionSlug);
+    },
+    data(){
+        return{
+            products : [],
+            loading: true
         }
+    },
+    created(){
+        this.$store.dispatch('myProduct/getProducts' , {Sale : 1})
+        .then(res => {
+            this.products = res.data
+            this.loading = false
+        })
     }
 };
 </script>

@@ -7,23 +7,7 @@
                         <div class="swiper-slide">
                             <nuxt-link to="/shop">
                                 <img
-                                    src="~/static/img/slider/home-4/1.jpg"
-                                    alt="martfury"
-                                />
-                            </nuxt-link>
-                        </div>
-                        <div class="swiper-slide">
-                            <nuxt-link to="/shop">
-                                <img
-                                    src="~/static/img/slider/home-4/2.jpg"
-                                    alt="martfury"
-                                />
-                            </nuxt-link>
-                        </div>
-                        <div class="swiper-slide">
-                            <nuxt-link to="/shop">
-                                <img
-                                    src="~/static/img/slider/home-4/3.jpg"
+                                    src="https://spinneys-egypt.com/storage/slider_images/Spinneys%20Online%20Shop/v0f1VddQzDCrSVD25DCkBrx6lfcBynu2bEWmTOl0.jpeg"
                                     alt="martfury"
                                 />
                             </nuxt-link>

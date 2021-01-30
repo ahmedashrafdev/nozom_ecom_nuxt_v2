@@ -6,7 +6,7 @@ export const state = () => ({
 
 export const mutations = {
     setErrMsg(state, payload) {
-        state.groups = payload;
+        state.errMsg = payload;
     },
     setErrCode(state, payload) {
         state.errCode = payload;

@@ -4,26 +4,13 @@
         <div class="ps-page--product">
             <div class="ps-container">
                 <div class="ps-page__container">
-                    <div class="ps-page__left">
+                    <div class="ps-page__left" v-if="!loading">
                         <product-detail-fullwidth v-if="product !== null" />
                     </div>
-                    <div class="ps-page__right">
-                        <product-widgets
-                            v-if="collections !== null"
-                            collection-slug="widget_same_brand"
-                        />
+                    <div class="ps-page__left" v-else>
+                        Loading
                     </div>
                 </div>
-                <customer-bought
-                    v-if="collections !== null"
-                    layout="fullwidth"
-                    collection-slug="customer_bought"
-                />
-                <related-product
-                    v-if="collections !== null"
-                    layout="fullwidth"
-                    collection-slug="shop-recommend-items"
-                />
             </div>
         </div>
         <newsletters layout="fullwidth"/>
@@ -31,7 +18,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState , mapGetters } from 'vuex';
 import ProductDetailFullwidth from '~/components/elements/detail/ProductDetailFullwidth';
 import BreadCrumb from '~/components/elements/BreadCrumb';
 import CustomerBought from '~/components/partials/product/CustomerBought';
@@ -42,6 +29,7 @@ import Newsletters from '~/components/partials/commons/Newsletters';
 export default {
     layout: 'layout-product',
     transition: 'zoom',
+    layout: 'layout-market-place-2',
     components: {
         Newsletters,
         LayoutProduct,
@@ -55,7 +43,10 @@ export default {
     computed: {
         ...mapState({
             collections: state => state.collection.collections,
-            product: state => state.product.product
+        }),
+        ...mapGetters({
+            product:"myProduct/product",
+            loading:"myProduct/loading"
         })
     },
     data() {
@@ -66,38 +57,7 @@ export default {
         };
     },
     async created() {
-        const queries = [
-            'customer_bought',
-            'shop-recommend-items',
-            'widget_same_brand'
-        ];
-        setTimeout(
-            function() {
-                this.pageLoading = false;
-            }.bind(this),
-            2000
-        );
-        const collections = await this.$store.dispatch(
-            'collection/getCollectionsBySlugs',
-            queries
-        );
-        const product = await this.$store.dispatch(
-            'product/getProductsById',
-            this.productId
-        );
-        this.breadCrumb = [
-            {
-                text: 'Home',
-                url: '/'
-            },
-            {
-                text: 'Shop',
-                url: '/shop'
-            },
-            {
-                text: product.title
-            }
-        ];
+        this.$store.dispatch('myProduct/getProduct' ,  this.$route.params.id)
     },
     mounted() {
         this.$store.commit('app/setAppDrawer', false);

@@ -1,43 +1,54 @@
 <template lang="html">
     <div id="shop-widgets">
-        <aside class="widget widget_shop">
-            <h4 class="widget-title">
-                {{ $t('shop.widget.categories') }}
-            </h4>
-            <ul v-if="categories !== undefined" class="ps-list--categories">
-                <li>
-                    <a href="#" @click.prevent="handleGotoCategory(null)">
-                        All Categories
-                    </a>
-                </li>
-                <li v-for="category in categories" :key="category.id">
-                    <a
-                        href="#"
-                        @click.prevent="handleGotoCategory(category.slug)"
-                    >
-                        {{ category.name }}
-                    </a>
-                </li>
-            </ul>
-        </aside>
-        <aside class="widget widget_shop">
-            <h4 class="widget-title">
-                {{ $t('shop.widget.byBrands') }}
-            </h4>
-            <figure>
-                <v-checkbox
-                    v-for="brand in brands"
-                    v-model="selectedBrands"
-                    :value="brand.slug"
-                    :label="brand.name"
-                    :key="brand.id"
-                    @click="handleFilterByBrand"
-                />
-            </figure>
-            <figure>
+        <div v-if="loading">
+            Loading
+        </div>
+        <div v-else>
+            <aside class="widget widget_shop" v-if="groups.length > 0">
                 <h4 class="widget-title">
-                    {{ $t('shop.widget.byBrands') }}
+                    {{ $t('shop.widget.categories') }}
                 </h4>
+                <ul  class="ps-list--categories">
+                    <li>
+                        <a href="#" @click.prevent="handleGotoCategory(null)">
+                            {{$t('all_cats')}}
+                        </a>
+                    </li>
+                    <li v-for="group in groups" :key="groups.id">
+                        <a
+                            href="#"
+                            @click.prevent="handleGotoCategory(group.id)"
+                        >
+                            {{ group.GroupName }}
+                        </a>
+                    </li>
+                </ul>
+            </aside>
+        </div>
+        <aside class="widget widget_shop">
+            <figure>
+                <div class="flex">
+                    <h4 class="widget-title">
+                        {{ $t('shop.widget.byPrice') }}
+                    </h4>
+                     <div class="flex">
+                         <v-text-field
+                            v-model="priceRange[0]"
+                            class="ps-text-field"
+                            :placeholder="$t('from')"
+                            height="30"
+                            outlined
+                        />
+                        <v-text-field
+                            v-model="priceRange[1]"
+                            class="ps-text-field"
+                            :placeholder="$t('to')"
+                            height="30"
+                            outlined
+                        />
+                        
+                    </div>
+                </div>
                 <v-range-slider
                     v-model="priceRange"
                     color="warning"
@@ -47,7 +58,7 @@
                     @end="handleFilterByPriceRagne"
                 />
                 <p>
-                    Price: ${{ priceRange[0].toFixed(2) }} - ${{
+                    Price: EGP{{ priceRange[0].toFixed(2) }} - EGP{{
                         priceRange[1].toFixed(2)
                     }}
                 </p>
@@ -57,17 +68,22 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState , mapGetters } from 'vuex';
 import { getColletionBySlug } from '~/utilities/product-helper';
 import { serializeQuery } from '~/repositories/Repository';
 
 export default {
     name: 'ShopWidget',
+    watchQuery: true,
     computed: {
         ...mapState({
             categories: state => state.product.categories,
             brands: state => state.product.brands,
             products: state => state.product.products
+        }),
+        ...mapGetters({
+            groups:"collection/shopGroups",
+            loading:"collection/loading"
         }),
         categorySlug() {
             return this.$route;
@@ -76,66 +92,47 @@ export default {
     data() {
         return {
             priceRange: [100, 1000],
-            selectedBrands: []
+            selectedBrands: [],
         };
     },
     methods: {
-        async handleGotoCategory(slug) {
-            if (slug) {
-                const url = `/shop?category=${slug}`;
-                const products = getColletionBySlug(this.categories, slug);
-                this.$store.commit('product/setProducts', products);
-                this.$store.commit('product/setProducts', products);
-                this.$store.commit('product/setTotal', products.length);
-                this.$store.commit('collection/setQueries', [slug]);
-                this.$router.push(url);
+        handleGotoCategory(id) {
+            if(id === null){
+                const query = Object.assign({}, this.$route.query);
+                query.page = 1;
+                delete query.GroupCode;
+                this.$router.push({ query });
+                this.getGroups()
+                console.log('asd')
+                this.$store.dispatch('myProduct/getProducts' , query)
             } else {
-                const params = {
-                    _start: 1,
-                    _limit: 12
-                };
-                await this.$store.commit('collection/setQueries', null);
-                await this.$store.dispatch('product/getTotalRecords', params);
-                await this.$store.dispatch('product/getProducts', params);
+                const query = Object.assign({}, this.$route.query);
+                query.page = 1;
+                query.GroupCode = id;
+                this.$router.push({ query });
+                console.log('asd')
+                this.$store.dispatch('myProduct/getProducts' , query)
+                this.getGroups()
             }
         },
-
-        async handleFilterByBrand() {
-            if (this.selectedBrands) {
-                await this.$store.commit(
-                    'collection/setQueries',
-                    this.selectedBrands
-                );
-
-                await this.$store.dispatch(
-                    'product/getProductsByBrands',
-                    this.selectedBrands
-                );
-            } else {
-                const params = {
-                    _start: 1,
-                    _limit: 12
-                };
-                await this.$store.commit('collection/setQueries', null);
-                await this.$store.dispatch('product/getTotalRecords', params);
-                await this.$store.dispatch('product/getProducts', params);
-            }
-        },
-
         async handleFilterByPriceRagne() {
-            const params = {
-                price_gt: this.priceRange[0],
-                price_lt: this.priceRange[1],
-                _start: 1,
-                _limit: 999
-            };
-            console.log(this.priceRange);
-            await this.$store.dispatch(
-                'product/getProductsByPriceRange',
-                params
-            );
-            await this.$router.push(`/search?${serializeQuery(params)}`);
+            const query = Object.assign({}, this.$route.query);
+            query.page = 1;
+            query.PriceFrom = this.priceRange[0];
+            query.PriceTo = this.priceRange[1];
+            this.$router.push({ query });
+            this.$store.dispatch('myProduct/getProducts' , query)
+            this.getGroups()
+        },
+
+        getGroups(){
+            const payload = this.$route.query.GroupCode ? {FatherCode : this.$route.query.GroupCode} : {}
+            this.$store.dispatch('collection/getShopGroups' , payload)
         }
+        
+    },
+    created(){
+        this.getGroups()
     }
 };
 </script>

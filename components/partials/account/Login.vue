@@ -1,6 +1,9 @@
 <template lang="html">
     <form>
         <div class="ps-form__content">
+            <div class="mb-10" v-if="errMsg">
+                <span class="error" v-if="typeof errMsg == 'string'">{{errMsg}}</span>
+            </div>
             <h5>Log In Your Account</h5>
             <div class="form-group">
                 <v-text-field
@@ -12,6 +15,13 @@
                     height="50"
                     outlined
                 />
+                <div  class="err-list" v-if="errMsg && errMsg.email">
+                     <ul>
+                        <li class="error" v-for="err in errMsg.email">
+                            {{err}}
+                        </li>
+                    </ul>
+                </div>
             </div>
             <div class="form-group">
                 <v-text-field
@@ -24,6 +34,13 @@
                     height="50"
                     outlined
                 />
+                <!-- <div  class="err-list" v-if="errMsg.password">
+                     <ul>
+                        <li class="error" v-for="err in errMsg.password">
+                            {{err}}
+                        </li>
+                    </ul>
+                </div> -->
             </div>
             <div class="form-group">
                 <v-checkbox label="Remember me" color="warning" />
@@ -69,6 +86,7 @@
 <script>
 import { email, required } from 'vuelidate/lib/validators';
 import { validationMixin } from 'vuelidate';
+import { mapGetters } from 'vuex';
 
 export default {
     name: 'Login',
@@ -84,12 +102,16 @@ export default {
             if (!this.$v.password.$dirty) return errors;
             !this.$v.password.required && errors.push('This field is required');
             return errors;
-        }
+        },
+         ...mapGetters({
+            errMsg: 'ui/errMsg',
+        })
     },
     data() {
         return {
-            username: null,
-            password: null
+            username: "test@test.com",
+            password: 1234561,
+            isLoading: false
         };
     },
     validations: {
@@ -97,11 +119,16 @@ export default {
         password: { required }
     },
     methods: {
-        handleSubmit() {
+        async handleSubmit() {
             this.$v.$touch();
             if (!this.$v.$invalid) {
-                this.$store.dispatch('auth/setAuthStatus', true);
-                this.$router.push('/');
+               try {
+                    await this.$auth.loginWith('local', { data: {emailOrPhone : this.username , password :this.password} })
+                    this.isLoading = false
+
+                } catch (e) {
+                    console.log(e)
+                }
             }
         }
     }

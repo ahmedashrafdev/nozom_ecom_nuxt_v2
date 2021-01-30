@@ -6,7 +6,10 @@
                 <i>0</i>
             </span>
         </nuxt-link>
-        <nuxt-link to="/account/login" class="header__extra">
+        <nuxt-link v-if="$auth.loggedIn" to="/account/login" class="header__extra">
+            <i class="icon-user"></i>
+        </nuxt-link>
+        <nuxt-link v-else to="/account/user-information" class="header__extra">
             <i class="icon-user"></i>
         </nuxt-link>
     </div>

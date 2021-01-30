@@ -20,7 +20,12 @@ export default {
                 rel: 'stylesheet',
                 href:
                     'https://fonts.googleapis.com/css?family=Work+Sans:300,400,500,600,700&amp;amp;subset=latin-ext'
-            }
+            },
+            {
+                rel: 'stylesheet',
+                href:
+                    'https://fonts.googleapis.com/css2?family=Cairo&display=swap'
+            },
         ]
     },
 
@@ -50,7 +55,7 @@ export default {
         scss: './assets/scss/env.scss'
     },
 
-    modules: ['@nuxtjs/axios', 'nuxt-i18n'],
+    modules: ['@nuxtjs/axios', 'nuxt-i18n' , '@nuxtjs/auth-next'],
 
     i18n: {
         locales: [
@@ -69,6 +74,37 @@ export default {
 
     server: {
         port: 4002,
-        host: '192.168.1.40'
-    }
+        host: 'localhost'
+    },
+
+    auth: {
+        vuex: {
+            namespace:"nuxtAuth",
+        },
+        strategies: {
+          local: {
+            token: {
+              property: 'access_token',
+              required: true,
+              type: 'Bearer'
+            },
+            redirect: {
+                login: '/account/login',
+                logout: '/',
+                callback: '/account/login',
+                home: '/'
+            },
+            user: {
+            //   property: 'user',
+              autoFetch: true
+            },
+            endpoints: {
+                
+              login: { url: `http://localhost:8000/api/login`, method: `post` },
+              logout: { url: `http://localhost:8000/api/logout`, method: `post` },
+              user: { url: `http://localhost:8000/api/user`, method: `get` }
+            }
+          }
+        }
+    },
 };

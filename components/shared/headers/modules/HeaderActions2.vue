@@ -7,7 +7,7 @@
             </span>
         </nuxt-link>
         <mini-cart />
-        <div class="ps-block--user-header">
+        <div class="ps-block--user-header" v-if="!$auth.loggedIn">
             <div class="ps-block__left">
                 <i class="icon-user"></i>
             </div>
@@ -20,6 +20,23 @@
                 </nuxt-link>
             </div>
         </div>
+        <div v-else class="ps-block--user-account">
+        <i class="icon-user"></i>
+        <div class="ps-block__content">
+            <ul class="ps-list--arrow">
+                <li v-for="link in accountLinks" :key="link.text">
+                    <nuxt-link :to="link.url">
+                        {{ link.text }}
+                    </nuxt-link>
+                </li>
+                <li class="ps-block__footer">
+                    <a href="" @click.prevent="handleLogout">
+                        Logout
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
     </div>
 </template>
 
@@ -28,7 +45,47 @@ import MiniCart from '~/components/shared/headers/modules/MiniCart';
 import AccountLinks from '~/components/partials/account/modules/AccountLinks';
 export default {
     name: 'HeaderActions2',
-    components: { AccountLinks, MiniCart }
+    components: { AccountLinks, MiniCart },
+     data() {
+        return {
+            accountLinks: [
+                {
+                    text: 'Account Information',
+                    url: '/account/user-information'
+                },
+                {
+                    text: 'Notifications',
+                    url: '/account/notifications'
+                },
+                {
+                    text: 'Invoices',
+                    url: '/account/invoices'
+                },
+                {
+                    text: 'Address',
+                    url: '/account/addresses'
+                },
+                {
+                    text: 'Recent Viewed Product',
+                    url: '/account/recent-viewed-product'
+                },
+                {
+                    text: 'Wishlist',
+                    url: '/account/wishlist'
+                }
+            ]
+        };
+    },
+     methods: {
+        async handleLogout() {
+            await this.$auth.logout();
+            this.$notify({
+                group: 'addCartSuccess',
+                title: 'Success!',
+                text: `Logged out  successfully`
+            });
+        }
+    }
 };
 </script>
 

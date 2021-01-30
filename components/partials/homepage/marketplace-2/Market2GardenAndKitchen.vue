@@ -69,17 +69,17 @@ export default {
             return getColletionBySlug(this.categories, this.collectionSlug);
         }
     },
-    data() {
-        return {
-            carouselSetting: {
-                ...carouselStandard,
-                navigation: {
-                    nextEl: '#market2-kitchen .swiper-next',
-                    prevEl: '#market2-kitchen .swiper-prev'
-                }
-            }
-        };
-    }
+    // data() {
+    //     return {
+    //         carouselSetting: {
+    //             ...carouselStandard,
+    //             navigation: {
+    //                 nextEl: '#market2-kitchen .swiper-next',
+    //                 prevEl: '#market2-kitchen .swiper-prev'
+    //             }
+    //         }
+    //     };
+    // }
 };
 </script>
 <style lang="scss" scoped></style>
