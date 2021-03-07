@@ -2,11 +2,10 @@
     <client-only>
         <v-app  :class="$i18n.locale">
             <v-main>
-                <header-default />
+                <header-market-place2 />
                 <header-mobile />
                 <nuxt></nuxt>
-                <notify />
-                <newsletters />
+                <notify/>
                 <footer-default />
                 <navigation-list />
                 <mobile-drawer />
@@ -16,15 +15,29 @@
 </template>
 
 <script>
-import Notify from '~/components/elements/commons/notify';
-import NavigationList from '~/components/shared/mobile/NavigationList';
-import MobileDrawer from '~/components/shared/mobile/MobileDrawer';
 import HeaderDefault from '~/components/shared/headers/HeaderDefault';
 import HeaderMobile from '~/components/shared/mobile/HeaderMobile';
-import Newsletters from '~/components/partials/commons/Newsletters';
+import HeaderMarketPlace from '~/components/shared/headers/HeaderMarketPlace';
+import NavigationList from '~/components/shared/mobile/NavigationList';
+import MobileDrawer from '~/components/shared/mobile/MobileDrawer';
 import FooterDefault from '~/components/shared/footers/FooterDefault';
+import HeaderMarketPlace2 from '~/components/shared/headers/HeaderMarketPlace2';
+import Notify from '~/components/elements/commons/notify';
 export default {
-    components: { FooterDefault, Newsletters, HeaderMobile, HeaderDefault, MobileDrawer, NavigationList, Notify }
+    components: {
+        Notify,
+        HeaderMarketPlace2,
+        FooterDefault,
+        MobileDrawer,
+        NavigationList,
+        HeaderMarketPlace,
+        HeaderMobile,
+        HeaderDefault
+    },
+    created(){
+        this.$store.dispatch('myCart/get')
+        this.$store.dispatch('myWishlist/get')
+    }
 };
 </script>
 

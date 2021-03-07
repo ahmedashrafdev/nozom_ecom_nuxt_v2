@@ -9,7 +9,7 @@
                                 <img src="/img/users/3.jpg" />
                                 <figure>
                                     <figcaption>Hello</figcaption>
-                                    <p>username@gmail.com</p>
+                                    <p>{{$auth.user.email}}</p>
                                 </figure>
                             </div>
                             <div class="ps-widget__content">

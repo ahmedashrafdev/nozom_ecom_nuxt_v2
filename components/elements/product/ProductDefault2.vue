@@ -129,13 +129,6 @@ export default {
     },
 
     computed: {
-        ...mapState({
-            cartItems: state => state.cart.cartItems,
-            currency: state => state.app.currency
-        }),
-        baseUrl() {
-            return baseUrl;
-        },
         isSale() {
             if (this.product.is_sale) {
                 return true;
@@ -153,31 +146,43 @@ export default {
     }),
     methods: {
         handleAddToCart() {
-            let item = {
-                id: this.product.id,
-                quantity: 1,
-                price: this.product.price
-            };
-            this.$store.dispatch('cart/addProductToCart', item);
-            this.getCartProduct(this.cartItems);
-            this.$notify({
-                group: 'addCartSuccess',
-                title: 'Success!',
-                text: `${this.product.ItemName} has been added to your cart!`
-            });
+            if(this.$auth.loggedIn){
+            this.$store.dispatch('myCart/create', {product: this.product.id})
+            .then(() => {
+                this.$notify({
+                    group: 'addCartSuccess',
+                    title: 'Success!',
+                    text: `${this.product.ItemName} has been added to your cart!`
+                });
+            })
+            } else {
+                this.$notify({
+                        group: 'addCartSuccess',
+                        title: 'Success!',
+                        text: `Please Login To Continue`
+                    });
+                    this.$router.push('account/login')
+            }
         },
 
         handleAddItemToWishlist() {
-            let item = {
-                id: this.product.id
-            };
-
-            this.$store.dispatch('wishlist/addItemToWishlist', item);
-            this.$notify({
-                group: 'addCartSuccess',
-                title: 'Add to wishlist!',
-                text: `${this.product.ItemName} has been added to your wishlist !`
-            });
+            if(this.$auth.loggedIn){
+                this.$store.dispatch('myWishlist/create', {product: this.product.id})
+                .then(() => {
+                    this.$notify({
+                        group: 'addCartSuccess',
+                        title: 'Success!',
+                        text: `${this.product.ItemName} has been added to your cart!`
+                    });
+                })
+            } else {
+                this.$notify({
+                    group: 'addCartSuccess',
+                    title: 'Success!',
+                    text: `Please Login To Continue`
+                });
+                this.$router.push('account/login')
+            }
         },
 
         handleAddItemToCompare() {

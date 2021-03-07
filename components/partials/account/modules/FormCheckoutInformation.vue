@@ -1,104 +1,95 @@
 <template lang="html">
     <div class="ps-form__billing-info">
         <h3 class="ps-form__heading">
-            Contact information
+            Checkout
         </h3>
-        <div class="form-group">
-            <label>Email or phone number <sup>*</sup></label>
-            <v-text-field
-                placeholder="Email or phone number"
-                outlined
-                height="50"
-            />
-        </div>
-        <div class="form-group">
-            <v-checkbox
-                color="success"
-                label="Keep me up to date on news and exclusive offers?"
-            />
-        </div>
-        <h3 class="ps-form__heading">
-            Shipping address
-        </h3>
-        <div class="row">
-            <div class="col-sm-6">
-                <div class="form-group">
-                    <label>First Name </label>
-                    <v-text-field
-                        placeholder="First Name"
-                        outlined
-                        height="50"
-                    />
+        <div v-if="addresses.length > 0">
+            <div class="form-group"  >
+                <label>
+                    Address
+                </label>
+                <select class="form-control" @change="applyAddress"  v-model="form.address_id">
+                    <option disabled selected>Select Address</option>
+                    <option v-for="address in addresses" :key="address.id" :value="address.id">{{address.BuildingNo}}</option>
+                </select>
+                <div class="err-list" v-if="msg.address_id">
+                        <ul>
+                        <li class="error" v-for="err in msg.address_id">
+                            {{err}}
+                        </li>
+                    </ul>
                 </div>
             </div>
-            <div class="col-sm-6">
-                <div class="form-group">
-                    <label>Last Name </label>
-                    <v-text-field
-                        placeholder="Last Name"
-                        outlined
-                        height="50"
-                    />
+                <!-- <span @click.>Add New Address</span> -->
+            <div class="ps-form__submit mt-8">
+                <nuxt-link to="/account/shopping-cart">
+                    <i class="icon-arrow-left mr-1"></i>
+                    Return to shopping cart
+                </nuxt-link>
+                <div class="ps-block__footer">
+                    <button class="ps-btn" @click="cehckout">
+                        Checkout
+                    </button>
                 </div>
             </div>
         </div>
-        <div class="form-group">
-            <label>Address</label>
-            <v-text-field placeholder="Address" outlined height="50" />
-        </div>
-        <div class="form-group">
-            <label>Apartment</label>
-            <v-text-field
-                placeholder="Apartment, suite, etc. (optional)"
-                outlined
-                height="50"
-            />
-        </div>
-        <div class="row">
-            <div class="col-sm-6">
-                <div class="form-group">
-                    <label>City</label>
-                    <v-text-field placeholder="City" outlined height="50" />
-                </div>
-            </div>
-            <div class="col-sm-6">
-                <div class="form-group">
-                    <label>Postcode</label>
-                    <v-text-field
-                        placeholder="Postal Code"
-                        outlined
-                        height="50"
-                    />
-                </div>
-            </div>
-        </div>
-        <div class="form-group">
-            <v-checkbox
-                color="success"
-                label="Save this information for next time"
-            />
-        </div>
-        <div class="ps-form__submit">
-            <nuxt-link to="/account/shopping-cart">
-                <i class="icon-arrow-left mr-1"></i>
-                Return to shopping cart
-            </nuxt-link>
-            <div class="ps-block__footer">
-                <button class="ps-btn" @click="handleToShipping">
-                    Continue to shipping
-                </button>
-            </div>
-        </div>
+        <FormCreateAddress v-else class="mt-8" @created="addressCreated"/>
+
     </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+import FormCreateAddress from '~/components/partials/account/modules/FormCreateAddress';
 export default {
     name: 'FormCheckoutInformation',
-    methods: {
-        handleToShipping() {
-            this.$router.push('/account/shipping');
+    data(){
+        return {
+            form : {
+                address_id : null
+            },
+            isLoading:false,
+            msg:"",
         }
+    },
+    components:{
+        FormCreateAddress
+    },
+    computed: {
+        ...mapGetters({
+            addresses: 'user/addresses'
+        })
+    },
+    methods: {
+        cehckout() {
+            this.$store.dispatch('myCart/checkout')
+            .then(() => {
+                this.$notify({
+                    group: 'addCartSuccess',
+                    title: 'Success!',
+                    text: `Order Placed Successfully!`
+                });
+                this.$router.push('/account/invoices')
+            })
+        },
+        applyAddress() {
+            this.$store.dispatch('myCart/applyAddress' , this.form.address_id)
+        },
+        addressCreated(id){
+            this.form.address_id = id
+            this.$store.dispatch('myCart/applyAddress' , this.form.address_id)
+            .then(() => {
+                this.cehckout()
+            })
+        }
+        
+    },
+    created(){
+        this.$store.dispatch('user/getAddresses')
+        this.$store.dispatch('myCart/get')
+        .then(res => {
+            this.address_id = res.address_id
+        })
     }
 };
 </script>

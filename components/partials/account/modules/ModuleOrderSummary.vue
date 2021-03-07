@@ -1,6 +1,6 @@
 <template lang="html">
     <div class="ps-form__orders ps-block--checkout-order">
-        <h3 v-if="shipping === false">Your Order</h3>
+        <h3>Your Order</h3>
         <div class="ps-block--checkout-order">
             <div class="ps-block__content">
                 <figure>
@@ -10,58 +10,71 @@
                     </figcaption>
                 </figure>
                 <figure class="ps-block__items">
+                    <template v-if="loading === true">
+                        <loading />
+                    </template>
                     <nuxt-link
-                        v-for="(product, index) in cartProducts"
+                        v-else
+                        v-for="(product, index) in cart.products"
                         :to="`/product/${product.id}`"
                         :key="product.id"
                         class="ps-product__title"
                     >
-                        {{ product.title }}
+                        {{ product.ItemName }}
                         <br />
-                        {{ cartItems[index].quantity }} x ${{
-                            product.price.toFixed(2)
+                        {{ product.qty }} x EGP{{
+                            product.POSPP.toFixed(2)
                         }}
                     </nuxt-link>
                 </figure>
                 <figure>
                     <figcaption>
                         <strong>Subtotal</strong>
-                        <small>$ {{ amount }}</small>
+                        <small>EGP {{ cart.subtotal.toFixed(2) }}</small>
                     </figcaption>
                 </figure>
-                <figure v-if="shipping === true">
+                <figure v-if="cart.discounVal">
+                    <figcaption v-if="cart.percentOff">
+                        <strong>{{ $t('header.miniCart.discountPer' ,{ per : cart.percentOff}) }}</strong>
+                        <small>EGP{{ cart.discounVal.toFixed(2) }}</small>
+                    </figcaption>
+                    <figcaption v-else>
+                        <strong>{{ $t('header.miniCart.discount') }}</strong>
+                        <small>EGP{{ cart.discounVal.toFixed(2) }}</small>
+                    </figcaption>
+                </figure>
+                <figure v-if="cart.shipping">
                     <figcaption>
                         <strong>Shipping</strong>
-                        <small>$ 20.00</small>
+                        <small>EGP{{cart.shipping}}</small>
                     </figcaption>
                 </figure>
                 <figure v-else class="ps-block__shipping">
                     <h3>Shipping</h3>
-                    <p>Calculated at next step</p>
+                    <p>Choos Address to Calculate Shipping</p>
                 </figure>
+                <figure>
+                    <figcaption>
+                        <strong>Total</strong>
+                        <small>EGP{{ cart.total.toFixed(2) }}</small>
+                    </figcaption>
+                </figure>
+                
             </div>
         </div>
     </div>
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapGetters } from 'vuex';
 
 export default {
     name: 'ModuleOrderSummary',
-    props: {
-        shipping: {
-            type: Boolean,
-            default: () => false
-        }
-    },
     computed: {
-        ...mapState({
-            cartItems: state => state.cart.cartItems,
-            total: state => state.cart.total,
-            amount: state => state.cart.amount,
-            cartProducts: state => state.product.cartProducts
-        })
+        ...mapGetters({
+            cart : 'myCart/cart',
+            loading : 'myCart/loading'
+        }),
     }
 };
 </script>

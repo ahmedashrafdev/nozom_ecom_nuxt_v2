@@ -63,9 +63,6 @@ export default {
             }
         },
         handleOpenDrawer(drawer) {
-            if (drawer === 'cart') {
-                this.loadCartProducts();
-            }
             this.$store.commit('app/setCurrentDrawerContent', drawer);
             this.$store.commit('app/setAppDrawer', !this.appDrawer);
         }

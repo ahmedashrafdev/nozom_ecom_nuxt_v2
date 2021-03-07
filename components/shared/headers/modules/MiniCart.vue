@@ -1,29 +1,45 @@
 <template lang="html">
     <div class="ps-cart--mini">
-        <a class="header__extra" href="#">
+        <a class="header__extra"  href="#">
             <i class="icon-bag2"></i>
-            <span>
-                <i>{{ total }}</i>
+            <span v-if="typeof cart.products !== 'undefined' && cart.products.length > 0">
+                <i>{{ cart.products.length }}</i>
             </span>
         </a>
-        <div v-if="total > 0" class="ps-cart__content">
+        <div v-if="typeof cart.products !== 'undefined' && cart.products.length > 0" class="ps-cart__content">
             <div class="ps-cart__items">
                 <template v-if="loading === true">
                     <loading />
                 </template>
                 <template v-else>
-                    <product-mini-cart
-                        v-for="product in cartProducts"
-                        :product="product"
-                        :key="product.id"
-                    />
+                    <div>
+                        <product-mini-cart
+                            v-for="product in cart.products"
+                            :product="product"
+                            :key="product.id"
+                        />
+                    </div>
                 </template>
             </div>
             <div class="ps-cart__footer">
                 <h3>
                     {{ $t('header.miniCart.subTotal') }}
-                    <strong>${{ amount }}</strong>
+                    <strong>EGP{{ cart.subtotal.toFixed(2) }}</strong>
                 </h3>
+                <div v-if="cart.discounVal">
+                    <h3 v-if="cart.percentOff">
+                        {{ $t('header.miniCart.discountPer' ,{ per : cart.percentOff}) }}
+                        <strong>EGP{{ cart.discounVal.toFixed(2) }}</strong>
+                    </h3>
+                    <h3 v-else>
+                        {{ $t('header.miniCart.discount') }}
+                        <strong>EGP{{ cart.discounVal.toFixed(2) }}</strong>
+                    </h3>
+                </div>
+                <h3 v-if="cart.shipping">
+                        {{ $t('header.miniCart.shipping') }}
+                        <strong>EGP{{ cart.shipping }}</strong>
+                    </h3>
                 <figure>
                     <div>
                         <nuxt-link to="/account/shopping-cart" class="ps-btn">
@@ -47,25 +63,19 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
-import { baseUrl } from '~/repositories/Repository';
-import ProductMiniCart from '~/components/elements/product/ProductMiniCart';
+import { mapGetters } from 'vuex';
+import ProductMiniCart from '~/components/elements/product/ProductMiniCart2';
 import Loading from '~/components/elements/commons/Loading';
 
 export default {
     name: 'MiniCart',
     components: { Loading, ProductMiniCart },
     computed: {
-        ...mapState({
-            total: state => state.cart.total,
-            amount: state => state.cart.amount,
-            loading: state => state.cart.loading,
-            cartItems: state => state.cart.cartItems,
-            cartProducts: state => state.product.cartProducts
+        ...mapGetters({
+            cart : 'myCart/cart',
+            loading : 'myCart/loading'
         }),
-        baseUrl() {
-            return baseUrl;
-        }
+
     }
 };
 </script>

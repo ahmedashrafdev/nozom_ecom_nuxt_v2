@@ -4,7 +4,7 @@
             <nuxt-link :to="`/product/${product.id}`">
                 <img
                     :src="`${product.ItemImage}`"
-                    alt="martfury"
+                    alt="nozom"
                 />
             </nuxt-link>
         </div>
@@ -12,26 +12,22 @@
             <a
                 class="ps-product__remove"
                 href="#"
-                @click.prevent="handleRemoveProductFromCart(product)"
+                @click.prevent="handleRemoveProductFromCart(product.id)"
             >
                 <i class="icon-cross"></i>
             </a>
             <nuxt-link :to="`/product/${product.id}`" class="ps-product__title">
                 {{ product.title }}
             </nuxt-link>
-            <p>
-                <strong>Sold by:</strong>
-                {{ product.vendor }}
-            </p>
-            <small v-if="quantity !== null">
-                {{ quantity }} x {{currency}} {{ product.price }}
+            <small>
+                {{ product.qty }} x EGP{{ product.POSPP }}
             </small>
         </div>
     </div>
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapGetters } from 'vuex';
 import { baseUrl } from '~/repositories/Repository';
 export default {
     name: 'ProductMiniCart',
@@ -39,31 +35,6 @@ export default {
         product: {
             type: Object,
             default: () => {}
-        }
-    },
-    computed: {
-        ...mapState({
-            total: state => state.cart.total,
-            cartItems: state => state.cart.cartItems,
-            cartProducts: state => state.product.cartProducts,
-            currency: state => state.app.currency
-        }),
-        quantity() {
-            if (this.cartItems !== null) {
-                const cartItem = this.cartItems.find(
-                    item => item.id === this.product.id
-                );
-                if (cartItem !== undefined) {
-                    return cartItem.quantity;
-                } else {
-                    return null;
-                }
-            } else {
-                return null;
-            }
-        },
-        baseUrl() {
-            return baseUrl;
         }
     },
     methods: {
@@ -85,13 +56,15 @@ export default {
                 this.$store.commit('product/setCartProducts', null);
             }
         },
-        handleRemoveProductFromCart(product) {
-            const cartItem = this.cartItems.find(
-                item => item.id === product.id
-            );
-            this.$store.dispatch('cart/removeProductFromCart', cartItem);
-            this.$store.commit('cart/setLoading', true);
-            this.loadCartProducts();
+        handleRemoveProductFromCart(id) {
+            this.$store.dispatch('myCart/remove', id)
+           .then(() => {
+               this.$notify({
+                    group: 'addCartSuccess',
+                    title: 'Delete Cart',
+                    text: `${this.product.ItemName} has been deleted from your Cart !`
+                });
+           })
         }
     }
 };

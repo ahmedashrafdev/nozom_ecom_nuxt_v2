@@ -44,7 +44,7 @@ export default {
     },
     data() {
         return {
-            languages: [
+           languages: [
                 {
                     id: 1,
                     code: 'en',
@@ -53,9 +53,9 @@ export default {
                 },
                 {
                     id: 2,
-                    code: 'fr',
-                    image: '/img/flag/fr.png',
-                    text: 'Français'
+                    code: 'ar',
+                    image: '/img/flag/AR.png',
+                    text: 'arabic'
                 }
             ]
         };

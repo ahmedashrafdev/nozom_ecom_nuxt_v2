@@ -3,7 +3,7 @@
         <nuxt-link to="/account/wishlist" class="header__extra">
             <i class="icon-heart"></i>
             <span>
-                <i>0</i>
+                <i>{{wishlistLength}}</i>
             </span>
         </nuxt-link>
         <mini-cart />
@@ -43,6 +43,7 @@
 <script>
 import MiniCart from '~/components/shared/headers/modules/MiniCart';
 import AccountLinks from '~/components/partials/account/modules/AccountLinks';
+import { mapGetters } from 'vuex';
 export default {
     name: 'HeaderActions2',
     components: { AccountLinks, MiniCart },
@@ -54,10 +55,6 @@ export default {
                     url: '/account/user-information'
                 },
                 {
-                    text: 'Notifications',
-                    url: '/account/notifications'
-                },
-                {
                     text: 'Invoices',
                     url: '/account/invoices'
                 },
@@ -66,15 +63,17 @@ export default {
                     url: '/account/addresses'
                 },
                 {
-                    text: 'Recent Viewed Product',
-                    url: '/account/recent-viewed-product'
-                },
-                {
                     text: 'Wishlist',
                     url: '/account/wishlist'
                 }
             ]
         };
+    },
+    computed: {
+        ...mapGetters({
+            wishlistLength : 'myWishlist/wishlistLength',
+        }),
+
     },
      methods: {
         async handleLogout() {

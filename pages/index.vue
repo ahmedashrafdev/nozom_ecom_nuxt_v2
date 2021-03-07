@@ -2,16 +2,16 @@
     <main id="homepage-4">
         <market-place2-banner />
         <market-place-deal-of-day
-            v-if="collections !== null"
             collection-slug="deal-of-the-day"
         />
         <market-place2-categories />
         <market-place2-promotions />
-        <market2-consumer-electronics
-            v-if="categories !== null"
-            v-for="group in homeGroups"
-            :group="group"
-        />
+        <div v-if="!loading">
+            <market2-consumer-electronics
+                v-for="group in homeGroups"
+                :group="group"
+            />
+        </div>
         
         <market-place2-download />
     </main>
@@ -59,31 +59,15 @@ export default {
     },
     data(){
         return {
-            homeGroups : []
+            homeGroups : [],
+            loading: true,
         }
     },
     async created() {
-        const collectionsSlug = ['deal-of-the-day'];
-        const categoriesSlug = [
-            'clothing-and-parel',
-            'consumer-electrics',
-            'computers-and-technologies',
-            'garden-and-kitchen',
-            'health-and-beauty'
-        ];
-
-        await this.$store.dispatch(
-            'collection/getCollectionsBySlugs',
-            collectionsSlug
-        );
-        await this.$store.dispatch(
-            'collection/getCategoriesBySlugs',
-            categoriesSlug
-        );
-
         this.$store.dispatch('collection/getGroups' , {home : 1})
         .then(d => {
             this.homeGroups = d
+            this.loading = false
         })
     }
 };

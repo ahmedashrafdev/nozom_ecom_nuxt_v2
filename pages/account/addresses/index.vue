@@ -15,7 +15,7 @@ export default {
         BreadCrumb
     },
     transition: 'zoom',
-    middleware: 'authentication',
+    middleware: 'auth',
     data: () => {
         return {
             breadCrumb: [

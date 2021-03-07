@@ -4,24 +4,20 @@
             <div class="row">
                 <div class="col-lg-4">
                     <div class="ps-section__left">
-                        <aside class="ps-widget--account-dashboard">
-                            <div class="ps-widget__header">
-                                <img src="/img/users/3.jpg" />
-                                <figure>
-                                    <figcaption>Hello</figcaption>
-                                    <p>username@gmail.com</p>
-                                </figure>
-                            </div>
-                            <div class="ps-widget__content">
-                                <AccountLinks :links="accountLinks" />
-                            </div>
-                        </aside>
+                        <SideLayout/>
                     </div>
                 </div>
                 <div class="col-lg-8">
                     <section class="ps-section--account-setting">
                         <div class="ps-section__content">
-                            <p>No product here.</p>
+                            <div class="flex-space mb-20">
+                                <ul>
+                                    <li>email :{{$auth.user.email}}</li>
+                                    <li>name :{{$auth.user.name}}</li>
+                                </ul>
+                                <nuxt-link to="/account/user-edit" class="btn mr-5"
+                                ><i class="icon-edit"></i>Edit Account</nuxt-link>
+                            </div>
                         </div>
                     </section>
                 </div>
@@ -31,47 +27,11 @@
 </template>
 
 <script>
-import AccountLinks from './modules/AccountLinks';
+
+import SideLayout from '@/components/partials/account/modules/SideLayout.vue';
 export default {
     name: 'UserInformation',
-    components: { AccountLinks },
-    data() {
-        return {
-            accountLinks: [
-                {
-                    text: 'Account Information',
-                    url: '/account/user-information',
-                    icon: 'icon-user'
-                },
-                {
-                    text: 'Notifications',
-                    url: '/account/notifications',
-                    icon: 'icon-alarm-ringing'
-                },
-                {
-                    text: 'Invoices',
-                    url: '/account/invoices',
-                    icon: 'icon-papers'
-                },
-                {
-                    text: 'Address',
-                    url: '/account/addresses',
-                    icon: 'icon-map-marker'
-                },
-                {
-                    text: 'Recent Viewed Product',
-                    url: '/account/recent-viewed-product',
-                    icon: 'icon-store',
-                    active: true
-                },
-                {
-                    text: 'Wishlist',
-                    url: '/account/wishlist',
-                    icon: 'icon-heart'
-                }
-            ]
-        };
-    }
+    components: { SideLayout },
 };
 </script>
 

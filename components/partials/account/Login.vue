@@ -1,23 +1,23 @@
 <template lang="html">
     <form>
         <div class="ps-form__content">
-            <div class="mb-10" v-if="errMsg">
-                <span class="error" v-if="typeof errMsg == 'string'">{{errMsg}}</span>
+            <div class="mb-10" v-if="msg">
+                <span class="error" v-if="typeof msg == 'string'">{{msg}}</span>
             </div>
             <h5>Log In Your Account</h5>
             <div class="form-group">
                 <v-text-field
-                    v-model="username"
+                    v-model="emailOrPhone"
                     class="ps-text-field"
-                    :error-messages="usernameErrors"
-                    @input="$v.username.$touch()"
-                    placeholder="Usernamer or email"
+                    :error-messages="emailOrPhoneErrors"
+                    @input="$v.emailOrPhone.$touch()"
+                    placeholder="Phone or email"
                     height="50"
                     outlined
                 />
-                <div  class="err-list" v-if="errMsg && errMsg.email">
+                <div  class="err-list" v-if="msg && msg.email">
                      <ul>
-                        <li class="error" v-for="err in errMsg.email">
+                        <li class="error" v-for="err in msg.email">
                             {{err}}
                         </li>
                     </ul>
@@ -34,13 +34,13 @@
                     height="50"
                     outlined
                 />
-                <!-- <div  class="err-list" v-if="errMsg.password">
+                <div  class="err-list" v-if="msg && msg.passowrd">
                      <ul>
-                        <li class="error" v-for="err in errMsg.password">
+                        <li class="error" v-for="err in msg.passowrd">
                             {{err}}
                         </li>
                     </ul>
-                </div> -->
+                </div>
             </div>
             <div class="form-group">
                 <v-checkbox label="Remember me" color="warning" />
@@ -50,12 +50,21 @@
                     type="submit"
                     class="ps-btn ps-btn--fullwidth"
                     @click.prevent="handleSubmit"
+                    v-if="isLoading"
+                >
+                    Loading
+                </button>
+                <button
+                    type="submit"
+                    class="ps-btn ps-btn--fullwidth"
+                    @click.prevent="handleSubmit"
+                    v-else
                 >
                     Login
                 </button>
             </div>
         </div>
-        <div class="ps-form__footer">
+       <!-- <div class="ps-form__footer">
             <p>Connect with:</p>
             <ul class="ps-list--social">
                 <li>
@@ -79,22 +88,23 @@
                     </a>
                 </li>
             </ul>
-        </div>
+        </div>!-->
     </form>
 </template>
 
 <script>
-import { email, required } from 'vuelidate/lib/validators';
+import { required } from 'vuelidate/lib/validators';
 import { validationMixin } from 'vuelidate';
 import { mapGetters } from 'vuex';
+
 
 export default {
     name: 'Login',
     computed: {
-        usernameErrors() {
+        emailOrPhoneErrors() {
             const errors = [];
-            if (!this.$v.username.$dirty) return errors;
-            !this.$v.username.required && errors.push('This field is required');
+            if (!this.$v.emailOrPhone.$dirty) return errors;
+            !this.$v.emailOrPhone.required && errors.push('This field is required');
             return errors;
         },
         passwordErrors() {
@@ -103,36 +113,52 @@ export default {
             !this.$v.password.required && errors.push('This field is required');
             return errors;
         },
-         ...mapGetters({
-            errMsg: 'ui/errMsg',
+        ...mapGetters({
+            msg: 'ui/errMsg',
         })
     },
     data() {
         return {
-            username: "test@test.com",
-            password: 1234561,
-            isLoading: false
+            emailOrPhone: "test@test.com",
+            password: "123456",
+           
+            isLoading: false,
+
         };
     },
     validations: {
-        username: { required },
-        password: { required }
+        emailOrPhone: { required },
+        password: { required },
     },
     methods: {
-        async handleSubmit() {
+       async handleSubmit()  {
+            this.isLoading = true
             this.$v.$touch();
             if (!this.$v.$invalid) {
-               try {
-                    await this.$auth.loginWith('local', { data: {emailOrPhone : this.username , password :this.password} })
-                    this.isLoading = false
+                const payload = {emailOrPhone : this.emailOrPhone , password :this.password}
+                console.log('asd')
+                    this.$auth
+                    .loginWith('local', { data: payload })
+                    .then(()=>{
+                        this.$notify({
+                            group: 'addCartSuccess',
+                            title: 'Success!',
+                            text: `you have been logged in successfully`
+                        });
+                        this.$store.dispatch('myCart/get')
+                        this.isLoading = false
 
-                } catch (e) {
-                    console.log(e)
-                }
+                    })  
+               
+                
             }
         }
     }
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.ps-form--account .ps-form__content {
+    padding: 30px;
+}
+</style>

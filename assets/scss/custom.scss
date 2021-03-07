@@ -50,7 +50,6 @@
         pointer-events: none;
         mix-blend-mode: multiply;
     }
-    
 }
 .ps-product .ps-product__title{
     color:#333;
@@ -70,3 +69,21 @@
 .cairo{
     font-family: "Cairo";
 }
+.flex-space{
+    display: flex;
+    justify-content: space-between;
+}
+.btn{
+    padding: 5px 10px;
+    background-color: var(--primary-color) !important;
+    color :white;
+}
+
+.ps-logo img {
+    width: 150px;
+}
+
+.header--mobile .navigation--mobile{
+    background-color: #eff1f2;
+}
+

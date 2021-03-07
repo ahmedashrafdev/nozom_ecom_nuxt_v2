@@ -5,8 +5,8 @@
                 <h1>Shopping Cart</h1>
             </div>
             <div class="ps-section__content">
-                <table-shopping-cart v-if="cartProducts !== null" />
-                <p v-else>Cart empty</p>
+                <table-shopping-cart v-if="typeof cart.products !== 'undefined' && cart.products.length > 0" />
+                <p v-else class="cart-nodata">Cart empty</p>
                 <div class="ps-section__cart-actions">
                     <nuxt-link to="/shop" class="ps-btn">
                         <i class="icon-arrow-left mr-2"></i>
@@ -14,7 +14,7 @@
                     </nuxt-link>
                 </div>
             </div>
-            <div class="ps-section__footer">
+            <div class="ps-section__footer"  v-if="typeof cart.products !== 'undefined' && cart.products.length > 0" >
                 <div class="row justify-content-end">
                     <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 ">
                         <figure>
@@ -23,12 +23,14 @@
                                 <input
                                     class="form-control"
                                     type="text"
+                                    v-model="couponForm.code"
                                     placeholder=""
                                 />
                             </div>
                             <div class="form-group">
-                                <button class="ps-btn ps-btn--outline">
-                                    Apply
+                                <button class="ps-btn ps-btn--outline" @click.prevent="applyCoupon">
+                                    <span v-if="CouponLoading">Loading</span>
+                                    <span v-else>Apply</span>
                                 </button>
                             </div>
                         </figure>
@@ -40,29 +42,37 @@
                         <div class="ps-block--shopping-total">
                             <div class="ps-block__header">
                                 <p>
-                                    Subtotal <span> ${{ total }}</span>
+                                    Subtotal <span> EGP{{ cart.subtotal.toFixed(2) }}</span>
+                                </p>
+                                <p v-if="cart.percentOff">
+                                    {{ $t('header.miniCart.discountPer' ,{ per : cart.percentOff}) }}
+                                    <span>EGP{{ cart.discounVal }}</span>
+                                </p>
+                                <p v-else>
+                                    {{ $t('header.miniCart.discount') }}
+                                    <span>EGP{{ cart.discounVal }}</span>
                                 </p>
                             </div>
                             <div class="ps-block__content">
                                 <ul class="ps-block__product">
                                     <li
-                                        v-for="(product, index) in cartProducts"
+                                        v-for="(product, index) in cart.products"
                                     >
                                         <span class="ps-block__estimate">
                                             <nuxt-link
                                                 :to="`/product/${product.id}`"
                                                 class="ps-product__title"
                                             >
-                                                {{ product.title }}
+                                                {{ product.ItemName }}
                                                 <br />
                                                 x
-                                                {{ cartItems[index].quantity }}
+                                                {{ product.qty }}
                                             </nuxt-link>
                                         </span>
                                     </li>
                                 </ul>
                                 <h3>
-                                    Total <span>${{ amount }}</span>
+                                    Total <span>EGP{{ cart.total.toFixed(2) }}</span>
                                 </h3>
                             </div>
                         </div>
@@ -80,20 +90,51 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapGetters } from 'vuex';
 import ProductShoppingCart from '~/components/elements/product/ProductShoppingCart';
 import TableShoppingCart from '~/components/partials/account/modules/TableShoppingCart';
 
 export default {
     name: 'ShoppingCart',
+    layout: 'layout-market-place-2',
     components: { TableShoppingCart, ProductShoppingCart },
     computed: {
-        ...mapState({
-            cartItems: state => state.cart.cartItems,
-            total: state => state.cart.total,
-            amount: state => state.cart.amount,
-            cartProducts: state => state.product.cartProducts
-        })
+        ...mapGetters({
+            cart : 'myCart/cart',
+            CouponLoading: 'myCart/couponLoading',
+            loading : 'myCart/loading'
+        }),
+
+    },
+    data(){
+        return {
+            couponForm :{
+                code : null,
+            }
+        }
+    },
+    created(){
+        this.$store.dispatch('myCart/get')
+    },
+    methods: {
+        applyCoupon(){
+            if(this.CouponLoading) return
+            this.$store.dispatch('myCart/applyCoupon' , this.couponForm)
+            .then(() => {
+                this.$notify({
+                    group: 'addCartSuccess',
+                    title: 'Apply Coupon',
+                    text: `Coupon Applied Successfully`
+                });
+            })
+            .catch(e => {
+                this.$notify({
+                    group: 'addCartSuccess',
+                    title: 'Apply Coupon',
+                    text: e
+                });
+            })
+        }
     }
 };
 </script>

@@ -1,23 +1,23 @@
 <template lang="html">
     <section class="ps-page--my-account">
         <bread-crumb :breadcrumb="breadCrumb" />
-        <wishlist />
+        <edit-account />
     </section>
 </template>
 
 <script>
 import BreadCrumb from '~/components/elements/BreadCrumb';
-import Wishlist from '~/components/partials/account/Wishlist';
-import HeaderMobile from '~/components/shared/mobile/HeaderMobile';
+import Newsletters from '~/components/partials/commons/Newsletters';
+import EditAccount from '~/components/partials/account/EditAccount';
 
 export default {
     transition: 'zoom',
+    middleware: 'auth',
     components: {
-        HeaderMobile,
-        Wishlist,
+        EditAccount,
+        Newsletters,
         BreadCrumb
     },
-
     data: () => {
         return {
             breadCrumb: [
@@ -26,12 +26,11 @@ export default {
                     url: '/'
                 },
                 {
-                    text: 'Wishlist'
+                    text: 'Edit Account'
                 }
             ]
         };
-    },
-
+    }
 };
 </script>
 

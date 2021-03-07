@@ -1,7 +1,7 @@
 <template lang="html">
     <section
         class="ps-product-list ps-section--carousel-outside"
-        :id="`place2-consumer-electronic`"
+        :id="`place2-consumer-electronic-${group.id}`"
     >
         <div class="container">
             <div class="ps-section__header">
@@ -61,8 +61,8 @@ export default {
             carouselSetting: {
                 ...carouselStandard,
                 navigation: {
-                    nextEl: '#place2-consumer-electronic .swiper-next',
-                    prevEl: '#place2-consumer-electronic .swiper-prev'
+                    nextEl: `#place2-consumer-electronic-${this.group.id} .swiper-next`,
+                    prevEl: `#place2-consumer-electronic-${this.group.id} .swiper-prev`
                 }
             },
             

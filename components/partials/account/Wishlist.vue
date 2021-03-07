@@ -4,7 +4,7 @@
             <div class="ps-section__header">
                 <h1>Wishlist</h1>
             </div>
-            <div class="ps-section__content">
+            <div class="ps-section__content" v-if="!loading">
                 <div class="table-responsive">
                     <table class="table ps-table--whishlist">
                         <thead>
@@ -16,9 +16,9 @@
                                 <th></th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody v-if="wishlistLength > 0">
                             <tr
-                                v-for="product in wishlistItems"
+                                v-for="product in wishlist"
                                 :key="product.id"
                             >
                                 <td>
@@ -37,9 +37,8 @@
                                     <product-shopping-cart :product="product" />
                                 </td>
                                 <td class="price">
-                                    $ {{ product.price.toFixed(2) }}
+                                   EGP{{ product.POSPP.toFixed(2) }}
                                 </td>
-                                <td>{{ product.vendor }}</td>
                                 <td>
                                     <a
                                         class="ps-btn"
@@ -48,67 +47,60 @@
                                             handleAddToCart(product)
                                         "
                                     >
-                                        Add to cart
+                                        Switch to cart
                                     </a>
                                 </td>
                             </tr>
                         </tbody>
+                        <tbody v-else>
+                            No Products
+                        </tbody>
                     </table>
                 </div>
+            </div>
+            <div v-else>
+                loading
             </div>
         </div>
     </div>
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapGetters } from 'vuex';
 import ProductShoppingCart from '~/components/elements/product/ProductShoppingCart';
 import { getListOfProductId } from '~/utilities/product-helper';
 export default {
     name: 'Wishlist',
     components: { ProductShoppingCart },
     computed: {
-        ...mapState({
-            wishlistItems: state => state.product.wishlistItems
-        })
+        ...mapGetters({
+            wishlist : 'myWishlist/wishlist',
+            wishlistLength : 'myWishlist/wishlistLength',
+            loading : 'myWishlist/loading'
+        }),
     },
     methods: {
         handleAddToCart(product) {
-            let item = {
-                id: product.id,
-                quantity: 1,
-                price: product.price
-            };
-            this.$store.dispatch('cart/addProductToCart', item);
-            this.$notify({
-                group: 'addCartSuccess',
-                title: 'Success!',
-                text: `${product.title} has been added to your cart!`
-            });
+            this.$store.dispatch('myCart/create', {product: product.id})
+            .then(() => {
+                this.$notify({
+                    group: 'addCartSuccess',
+                    title: 'Success!',
+                    text: `${product.ItemName} has been added to your cart!`
+                });
+                this.handleRemoveItemFromWishlist(product)
+            })
         },
         handleRemoveItemFromWishlist(product) {
-            this.$store.dispatch('wishlist/removeItemFromWishlist', product);
-            this.loadWishlist();
-            this.$notify({
-                group: 'addCartSuccess',
-                title: 'Remove Item!',
-                text: `${product.title} has been removed from your wishlist!`
-            });
+            this.$store.dispatch('myWishlist/remove', product.id)
+            .then(() => {
+                this.$notify({
+                    group: 'addCartSuccess',
+                    title: 'Success!',
+                    text: `${product.ItemName} has been deleted from Wishlist!`
+                });
+            })
         },
-        async loadWishlist() {
-            const wishlistItemsOnCookie = this.$cookies.get('wishlist', {
-                parseJSON: true
-            });
-            if (wishlistItemsOnCookie) {
-                const queries = getListOfProductId(wishlistItemsOnCookie.items);
-                if (queries.length >= 0) {
-                    const response = await this.$store.dispatch(
-                        'product/getWishlishtProducts',
-                        queries
-                    );
-                }
-            }
-        }
     }
 };
 </script>

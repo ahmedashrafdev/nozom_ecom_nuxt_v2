@@ -3,7 +3,7 @@
         <nuxt-link  :to="{path:'/shop',query:{GroupCode:menuData.id}}" class="cairo">
             {{ menuData.GroupName }}
         </nuxt-link>
-        <ul v-if="menuData.children.length > 0" class="sub-menu">
+        <ul class="sub-menu">
             <MenuDropdown
                 v-for="item in menuData.children"
                 :menu-data="item"

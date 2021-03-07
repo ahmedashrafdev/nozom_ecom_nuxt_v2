@@ -8,16 +8,7 @@
                     </div>
                 </div>
                 <div class="col-lg-8">
-                    <div class="ps-page__content">
-                        <div class="ps-section--account-setting">
-                            <div class="ps-section__header">
-                                <h3>Invoices</h3>
-                            </div>
-                            <div class="ps-section__content">
-                                <TableInvoices />
-                            </div>
-                        </div>
-                    </div>
+                    <FormCreateAddress @created="$router.push('/account/addresses')"/>
                 </div>
             </div>
         </div>
@@ -26,10 +17,11 @@
 
 <script>
 import SideLayout from '@/components/partials/account/modules/SideLayout.vue';
-import TableInvoices from './modules/TableInvoices';
+import FormCreateAddress from '~/components/partials/account/modules/FormCreateAddress';
+
 export default {
-    name: 'InvoiceDetail',
-    components: { TableInvoices, SideLayout },
+    name: 'CreateAddress',
+    components: { SideLayout, FormCreateAddress },
     
 };
 </script>

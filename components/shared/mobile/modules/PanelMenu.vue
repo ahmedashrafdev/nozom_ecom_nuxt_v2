@@ -13,10 +13,7 @@
         <div class="ps-panel__content">
             <div class="ps-site-actions">
                 <div class="row">
-                    <div class="col-6">
-                        <mobile-currency-switcher />
-                    </div>
-                    <div class="col-6">
+                    <div class="col-12">
                         <mobile-languge-switcher />
                     </div>
                 </div>
@@ -30,42 +27,11 @@
                                     :to="menuItem.url"
                                     @click="handleClosePanel"
                                 >
-                                    {{ menuItem.text }}
+                                    {{ $t(menuItem.text) }}
                                 </nuxt-link>
                             </v-list-item-content>
                         </template>
                         <mobile-submenu :menu="menuItem.subMenu" />
-                    </v-list-group>
-                    <v-list-group v-else-if="menuItem.mega" no-action>
-                        <template v-slot:activator>
-                            <v-list-item-content>
-                                <nuxt-link
-                                    :to="menuItem.url"
-                                    @click="handleClosePanel"
-                                >
-                                    {{ menuItem.text }}
-                                </nuxt-link>
-                            </v-list-item-content>
-                        </template>
-                        <v-list>
-                            <template v-for="megaItem in menuItem.megaContent">
-                                <v-list-group no-action>
-                                    <template v-slot:activator>
-                                        <v-list-item-content>
-                                            <nuxt-link
-                                                :to="menuItem.url"
-                                                @click="handleClosePanel"
-                                            >
-                                                {{ megaItem.heading }}
-                                            </nuxt-link>
-                                        </v-list-item-content>
-                                    </template>
-                                    <mobile-submenu
-                                        :menu="megaItem.megaItems"
-                                    />
-                                </v-list-group>
-                            </template>
-                        </v-list>
                     </v-list-group>
                     <v-list-item v-else>
                         <v-list-item-content>
@@ -73,7 +39,7 @@
                                 :to="menuItem.url"
                                 @click="handleClosePanel"
                             >
-                                {{ menuItem.text }}
+                                {{ $t(menuItem.text) }}
                             </nuxt-link>
                         </v-list-item-content>
                     </v-list-item>

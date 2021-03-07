@@ -73,7 +73,7 @@
                 </label>
                 <select class="form-control"  v-model="form.PhSerial">
                     <option disabled selected>Select Phone</option>
-                    <option v-for="phone in $auth.user.phones" :key="phone.id" :value="phone.id" :selected="address.PhSerial == phone.id">{{phone.phone}}</option>
+                    <option v-for="phone in $auth.user.phones" :key="phone.id" :value="phone.id">{{phone.phone}}</option>
                 </select>
                  <div  class="err-list" v-if="msg.PhSerial">
                      <ul>
@@ -87,9 +87,9 @@
                 <label>
                     Section
                 </label>
-                <select class="form-control" >
+                <select class="form-control" @change="getAreas()" v-model="selectedSection">
                     <option disabled selected>Select section</option>
-                    <option v-for="section in sections" :key="section.id" @click="getAreas(section.id)" :value="section.id" :selected="selectedSection == section.id">{{section.AreaName}}</option>
+                    <option v-for="section in sections" :key="section.id" :value="section.id">{{section.AreaName}}</option>
                 </select>
             </div>
              <div class="form-group" v-show="areas.length > 0">
@@ -97,8 +97,8 @@
                     Area
                 </label>
                 <select class="form-control" v-model="form.AreaNo">
-                    <option>Select area</option>
-                    <option v-for="area in areas" :key="area.id" :value="area.id" :selected="address.AreaNo == area.id">{{area.AreaName}}</option>
+                    <option selected disabled>Select area</option>
+                    <option v-for="area in areas" :key="area.id" :value="area.id">{{area.AreaName}}</option>
                 </select>
                  <div  class="err-list" v-if="msg.AreaNo">
                      <ul>
@@ -108,17 +108,17 @@
                     </ul>
                 </div>
 
-                <div class="form-group">
-                    <v-checkbox
-                        color="success"
-                        v-model="form.Main"
-                        label="Main Address"
-                    />
-                </div>
+            </div>
+             <div class="form-group">
+                <v-checkbox
+                    color="success"
+                    v-model="form.Main"
+                    label="Main Address"
+                />
             </div>
             <div class="form-group submit">
                 <button class="ps-btn" v-if="isLoading">Loading ...</button>
-                <button class="ps-btn" @click.prevent="editAddress()" v-else>Save Address</button>
+                <button class="ps-btn" @click.prevent="attachAddress()" v-else>Save Address</button>
             </div>
         </div>
     </form>
@@ -127,13 +127,11 @@
 <script>
 import { mapGetters } from 'vuex';
 export default {
-    name: 'editttt',
+    name: 'Createeee',
     computed: {
         ...mapGetters({
             sections: 'user/sections',
             areas: 'user/areas',
-            address: 'user/address',
-            selectedSection: 'user/selectedSection',
         })
     },
     data(){
@@ -144,28 +142,31 @@ export default {
                 FlatNo : "",
                 Street : "",
                 Remark : "",
-                Main : null,
-                AreaNo :null,
-                PhSerial : null
+                Main : 1,
+                AreaNo : 2,
+                PhSerial : 1
             },
+            selectedSection:null,
             isLoading:false,
             msg:"",
         }
     },
     methods:{
-        editAddress() {
+        attachAddress() {
                     this.isLoading = true
-                    this.$store.dispatch('user/editAddress', {address :this.form , id: this.$route.params.id})
-                .then(()=>{
+                    // console.log(this.form)
+            this.$store.dispatch('user/attachAddress', this.form)
+                .then(res=>{
                     this.isLoading = false
-                    this.$router.push('/account/addresses')  
+                    this.$emit('created' , res.id) 
                 })
                 .catch(e => {
                     this.msg = e
                     this.isLoading = false
                 });
         },
-        getAreas(id){
+        getAreas(){
+            const id = this.selectedSection
             if(id){
                 this.$store.dispatch('user/getAreas' , id)
                     .then(()=>{
@@ -177,18 +178,11 @@ export default {
             .then(()=>{
                 console.log(this.sections)
             });
-        },
-        
-        getAddress(){
-            this.$store.dispatch('user/getAddress' , this.$route.params.id)
-                    .then(()=>{
-                        this.form = this.address
-                    });
         }
     },
     created(){
         this.getAreas()
-        this.getAddress()
+        this.$store.commit('user/setAreas' , [])
     }
 }
 </script>

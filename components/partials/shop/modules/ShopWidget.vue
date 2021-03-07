@@ -69,8 +69,6 @@
 
 <script>
 import { mapState , mapGetters } from 'vuex';
-import { getColletionBySlug } from '~/utilities/product-helper';
-import { serializeQuery } from '~/repositories/Repository';
 
 export default {
     name: 'ShopWidget',
@@ -97,42 +95,42 @@ export default {
     },
     methods: {
         handleGotoCategory(id) {
-            if(id === null){
-                const query = Object.assign({}, this.$route.query);
-                query.page = 1;
-                delete query.GroupCode;
-                this.$router.push({ query });
-                this.getGroups()
-                console.log('asd')
-                this.$store.dispatch('myProduct/getProducts' , query)
-            } else {
-                const query = Object.assign({}, this.$route.query);
-                query.page = 1;
-                query.GroupCode = id;
-                this.$router.push({ query });
-                console.log('asd')
-                this.$store.dispatch('myProduct/getProducts' , query)
-                this.getGroups()
-            }
+            let query = this.$route.query
+            id == null ? delete query.GroupCode : query.GroupCode = id 
+            this.addParamsToLocation(query)
         },
         async handleFilterByPriceRagne() {
-            const query = Object.assign({}, this.$route.query);
-            query.page = 1;
+            const query = this.$route.query;
             query.PriceFrom = this.priceRange[0];
             query.PriceTo = this.priceRange[1];
-            this.$router.push({ query });
-            this.$store.dispatch('myProduct/getProducts' , query)
-            this.getGroups()
+            this.addParamsToLocation(query)
         },
-
-        getGroups(){
-            const payload = this.$route.query.GroupCode ? {FatherCode : this.$route.query.GroupCode} : {}
+        addParamsToLocation(params) {
+            this.$store.dispatch('myProduct/getProducts' , params)
+            params.page = 1;
+            this.getGroups(params)
+           
+            history.pushState(
+                {},
+                null,
+                this.$route.path +
+                '?' +
+                Object.keys(params)
+                    .map(key => {
+                    return (
+                        encodeURIComponent(key) + '=' + encodeURIComponent(params[key])
+                    )
+                    })
+                    .join('&')
+            )
+        },
+        getGroups(params){
+            const payload = params.GroupCode ? {FatherCode : params.GroupCode} : {}
             this.$store.dispatch('collection/getShopGroups' , payload)
         }
-        
     },
     created(){
-        this.getGroups()
+        this.getGroups(this.$route.query)
     }
 };
 </script>

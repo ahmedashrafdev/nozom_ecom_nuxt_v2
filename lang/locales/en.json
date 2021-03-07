@@ -37,6 +37,9 @@
             "subTotal": "Sub Total:",
             "viewCart": "View Cart",
             "checkout": "Checkout",
+            "discount": "Discount",
+            "discountPer": "Discount(%{per})",
+            "shipping": "Shipping",
             "noProduct": "No products in cart"
         }
     },

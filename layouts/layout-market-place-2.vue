@@ -33,6 +33,9 @@ export default {
         HeaderMarketPlace,
         HeaderMobile,
         HeaderDefault
+    },
+    created(){
+        this.$store.dispatch('myCart/get')
     }
 };
 </script>

@@ -35,11 +35,11 @@
             </div>
         </div>
         <div class="ps-shopping__content" v-if="products.data.length > 0">
-            <div v-if="queries" class="ps-shopping__queries">
-                <a v-for="query in queries" href="#" @click.prevent="">
+            <!-- <div v-if="this.$route.query" class="ps-shopping__queries">
+                <a v-for="query in this.$route.query" href="#" @click.prevent="">
                     {{ query }}
                 </a>
-            </div>
+            </div> -->
             <div v-if="listView === false" class="ps-shopping-product">
                 <div class="row">
                     <div
@@ -53,7 +53,7 @@
                 <footer class="mt-30">
                     <v-pagination
                         v-model="page"
-                        :length="paginationLenght"
+                        :length="products.last_page"
                         @input="handleChangePagination"
                     />
                 </footer>
@@ -67,7 +67,7 @@
                 <footer class="mt-30">
                     <v-pagination
                         v-model="page"
-                        :length="paginationLenght"
+                        :length="products.last_page"
                         @input="handleChangePagination"
                     />
                 </footer>
@@ -78,46 +78,58 @@
 </template>
 
 <script>
-import { mapState , mapGetters } from 'vuex';
+import {  mapGetters } from 'vuex';
 import ProductDefault from '~/components/elements/product/ProductDefault2';
 import ProductWide from '~/components/elements/product/ProductWide2';
 
 export default {
     name: 'LayoutShopSidebar',
-    watchQuery: true,
+    watchQuery(newQuery, oldQuery) {
+        console.log(oldQuery)
+        this.$store.dispatch('myProduct/getProducts' , newQuery)
+    },
     components: { ProductWide, ProductDefault },
     computed: {
-        ...mapState({
-            total: state => state.product.total,
-            queries: state => state.collection.queries
-        }),
         ...mapGetters({
             products: "myProduct/products",
             loading: "myProduct/loading",
         }),
-        paginationLenght() {
-            if (this.products.total % 12 === 0) {
-                return parseInt(this.products.total / this.pageSize);
-            } else {
-                return parseInt(this.products.total / 12 + 1);
-            }
-        }
     },
     data() {
         return {
             listView: false,
             sort:null,
             page: 1,
-            
         };
+    },
+    watch: {
+        '$route' (to, from) {
+            console.log('asd')
+        }
     },
     methods: {
         async handleChangePagination(value) {
             const query = Object.assign({}, this.$route.query);
             query.page = value;
-            this.$router.push({ query });
-            this.$store.dispatch('myProduct/getProducts' , query)
+            this.addParamsToLocation(query)
 
+        },
+        addParamsToLocation(params) {
+            window.scrollTo(0,0 , 'smooth')
+            this.$store.dispatch('myProduct/getProducts' , params)
+            history.pushState(
+                {},
+                null,
+                this.$route.path +
+                '?' +
+                Object.keys(params)
+                    .map(key => {
+                    return (
+                        encodeURIComponent(key) + '=' + encodeURIComponent(params[key])
+                    )
+                    })
+                    .join('&')
+            )
         },
         handleSorting() {
             const query = Object.assign({}, this.$route.query);

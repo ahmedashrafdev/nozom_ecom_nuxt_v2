@@ -10,32 +10,33 @@
             </tr>
         </thead>
         <tbody>
-            <tr v-for="(product, index) in cartProducts" :key="product.id">
+            <tr v-for="(product, index) in cart.products" :key="product.id">
                 <td data-label="Product">
                     <product-shopping-cart :product="product" />
                 </td>
-                <td data-label="Price" class="price">$ {{ product.price }}</td>
+                <td data-label="Price" class="price">EGP{{ product.POSPP }}</td>
                 <td data-label="Quantity">
                     <div class="form-group--number">
-                        <button class="up">+</button>
-                        <button class="down">-</button>
+                        <button class="up" @click.prevent="update({id : product.id , qty : product.qty + 1})">+</button>
+                        <button class="down" @click.prevent="update({id : product.id , qty : product.qty - 1})">-</button>
                         <input
                             class="form-control"
                             type="text"
-                            placeholder="1"
-                            value="1"
+                            disabled
+                            :placeholder="product.qty"
+                            :value="product.qty"
                         />
                     </div>
                 </td>
                 <td data-label="Total">
-                    ${{
-                        (cartItems[index].quantity * product.price).toFixed(2)
+                    EGP{{
+                        (product.qty * product.POSPP).toFixed(2)
                     }}
                 </td>
                 <td data-label="Action">
                     <a
                         href="#"
-                        @click.prevent="handleRemoveProductFromCart(product)"
+                        @click.prevent="handleRemoveProductFromCart(product.id)"
                     >
                         <i class="icon-cross"></i>
                     </a>
@@ -46,39 +47,40 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapGetters } from 'vuex';
 import ProductShoppingCart from '~/components/elements/product/ProductShoppingCart';
 
 export default {
     name: 'TableShoppingCart',
     components: { ProductShoppingCart },
-    computed: {
-        ...mapState({
-            cartItems: state => state.cart.cartItems,
-            total: state => state.cart.total,
-            amount: state => state.cart.amount,
-            cartProducts: state => state.product.cartProducts
-        })
+     computed: {
+        ...mapGetters({
+            cart : 'myCart/cart',
+            CouponLoading: 'myCart/couponLoading',
+            loading : 'myCart/loading'
+        }),
+
     },
     methods: {
-        async loadCartProducts() {
-            const cookieCart = this.$cookies.get('cart', { parseJSON: true });
-            let queries = [];
-            cookieCart.cartItems.forEach(item => {
-                queries.push(item.id);
-            });
-            if (this.cartItems.length > 0) {
-                await this.$store.dispatch('product/getCartProducts', queries);
-            } else {
-                this.$store.commit('product/setCartProducts', null);
-            }
+        handleRemoveProductFromCart(id) {
+            this.$store.dispatch('myCart/remove', id)
+           .then(() => {
+               this.$notify({
+                    group: 'addCartSuccess',
+                    title: 'Delete Cart',
+                    text: `item has been deleted from your Cart !`
+                });
+           })
         },
-        handleRemoveProductFromCart(product) {
-            const cartItem = this.cartItems.find(
-                item => item.id === product.id
-            );
-            this.$store.dispatch('cart/removeProductFromCart', cartItem);
-            this.loadCartProducts();
+        update(payload){
+            this.$store.dispatch('myCart/update', payload)
+            .then(() => {
+                this.$notify({
+                        group: 'addCartSuccess',
+                        title: 'Delete Cart',
+                        text: `item has been updated from your Cart !`
+                    });
+            })
         }
     }
 };

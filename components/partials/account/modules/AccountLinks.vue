@@ -10,10 +10,8 @@
         </template>
         <li>
             <nuxt-link to="/account/my-account">
-                <a>
-                    <i class="icon-power-switch"></i>
-                    Logout
-                </a>
+                <i class="icon-power-switch"></i>
+                Logout
             </nuxt-link>
         </li>
     </ul>

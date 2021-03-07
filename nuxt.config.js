@@ -74,7 +74,7 @@ export default {
 
     server: {
         port: 4002,
-        host: 'localhost'
+        host: '192.168.1.40'
     },
 
     auth: {
@@ -100,9 +100,9 @@ export default {
             },
             endpoints: {
                 
-              login: { url: `http://localhost:8000/api/login`, method: `post` },
-              logout: { url: `http://localhost:8000/api/logout`, method: `post` },
-              user: { url: `http://localhost:8000/api/user`, method: `get` }
+              login: { url: `http://192.168.1.40:8000/api/login`, method: `post` },
+              logout: { url: `http://192.168.1.40:8000/api/logout`, method: `post` },
+              user: { url: `http://192.168.1.40:8000/api/user`, method: `get` }
             }
           }
         }

@@ -3,10 +3,10 @@
         <nuxt-link to="/account/shopping-cart" class="header__extra">
             <i class="icon-bag2"></i>
             <span>
-                <i>0</i>
+                <i>{{cartLength}}</i>
             </span>
         </nuxt-link>
-        <nuxt-link v-if="$auth.loggedIn" to="/account/login" class="header__extra">
+        <nuxt-link v-if="!$auth.loggedIn" to="/account/login" class="header__extra">
             <i class="icon-user"></i>
         </nuxt-link>
         <nuxt-link v-else to="/account/user-information" class="header__extra">
@@ -16,8 +16,15 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 export default {
-    name: 'MobileHeaderActions'
+    name: 'MobileHeaderActions',
+    computed:{
+        ...mapGetters({
+            cartLength : 'myCart/cartLength',
+            loading : 'myCart/loading'
+        }),
+    }
 };
 </script>
 
