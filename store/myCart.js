@@ -1,4 +1,4 @@
-import http from "../repositories/Http.js";
+import http, { serializeQuery } from "../repositories/Http.js";
 
 export const state = () => ({
     loading: false,
@@ -7,7 +7,8 @@ export const state = () => ({
     deleteLoading: false,
     couponLoading: false,
     checkoutLoading: false,
-    cart: []
+    cart: [],
+    orders: []
 });
 
 export const mutations = {
@@ -31,6 +32,9 @@ export const mutations = {
     },
     setCheckoutLoading(state, payload) {
         state.checkoutLoading = payload;
+    },
+    setOrders(state, payload) {
+        state.orders = payload;
     },
 };
 
@@ -59,6 +63,9 @@ export const getters = {
     cart(state){
         return state.cart
     },
+    orders(state){
+        return state.orders
+    },
     cartLength(state){
         const length = typeof state.cart.products !== 'undefined' ? state.cart.products.length : 0
         return length
@@ -71,6 +78,21 @@ export const actions = {
             .get("cart")
             .then(res => {
                 commit('setCart', res.data);
+                commit('setLoading', false);
+                resolve(res);
+            })
+            .catch(e => {
+                commit('setLoading', false);
+                reject(e.response.data);
+            })
+        })
+    },
+    getOrders({ commit }) {
+        return new Promise((resolve, reject) => {
+            http
+            .get(`user/orders`)
+            .then(res => {
+                commit('setOrders', res.data);
                 commit('setLoading', false);
                 resolve(res);
             })

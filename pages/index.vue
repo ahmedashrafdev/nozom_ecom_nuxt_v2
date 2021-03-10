@@ -2,8 +2,11 @@
     <main id="homepage-4">
         <market-place2-banner />
         <market-place-deal-of-day
+         v-if="!loading"
             collection-slug="deal-of-the-day"
         />
+        <products-loading v-else/>
+        
         <market-place2-categories />
         <market-place2-promotions />
         <div v-if="!loading">
@@ -12,8 +15,10 @@
                 :group="group"
             />
         </div>
+        <products-loading v-else/>
+
         
-        <market-place2-download />
+        <!-- <market-place2-download /> -->
     </main>
 </template>
 
@@ -21,6 +26,7 @@
 import { mapState } from 'vuex';
 import FooterDefault from '~/components/shared/footers/FooterDefault';
 import MarketPlace2Categories from '~/components/partials/homepage/marketplace-2/MarketPlace2Categories';
+import ProductsLoading from '~/components/partials/ProductsLoading';
 import MarketPlace2Promotions from '~/components/partials/homepage/marketplace-2/MarketPlace2Promotions';
 import MarketPlace2Download from '~/components/partials/homepage/marketplace-2/MarketPlace2Download';
 import Market2ConsumerElectronics from '~/components/partials/homepage/marketplace-2/Market2ConsumerElectronics';
@@ -41,6 +47,7 @@ export default {
         MarketPlaceDealOfDay,
         HeaderMarketPlace2,
         MarketPlace2Banner,
+        ProductsLoading,
         Market2HealthyAndBeauty,
         Market2GardenAndKitchen,
         Market2ComputerAndTechnology,

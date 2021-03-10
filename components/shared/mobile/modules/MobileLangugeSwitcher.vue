@@ -64,6 +64,10 @@ export default {
         handleSwitchLanguage(locale) {
             this.$router.push(this.switchLocalePath(locale));
         }
+    },
+    mounted(){
+        this.$store.dispatch('collection/getGroups' , {featured : 1})
+        .then()
     }
 };
 </script>

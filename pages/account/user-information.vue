@@ -10,7 +10,7 @@ import UserInformation from '~/components/partials/account/UserInformation';
 import HeaderMobile from '~/components/shared/mobile/HeaderMobile';
 
 export default {
-    middleware: 'authentication',
+    middleware: 'auth',
     transition: 'zoom',
     components: {
         HeaderMobile,

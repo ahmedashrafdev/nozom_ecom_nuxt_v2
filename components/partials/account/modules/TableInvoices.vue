@@ -4,7 +4,6 @@
             <thead>
                 <tr>
                     <th>Id</th>
-                    <th>Title</th>
                     <th>Date</th>
                     <th>Amount</th>
                     <th>Status</th>
@@ -13,13 +12,12 @@
             <tbody>
                 <tr v-for="order in orders" :key="order.id">
                     <td>
-                        <nuxt-link to="/account/invoice-detail">{{
+                        {{
                             order.id
-                        }}</nuxt-link>
+                        }}
                     </td>
-                    <td>{{ order.title }}</td>
-                    <td>{{ order.dateCreate }}</td>
-                    <td>${{ order.amount }}</td>
+                    <td>{{ order.created_at }}</td>
+                    <td>EGP{{ order.total.toFixed(2) }}</td>
                     <td>{{ order.status }}</td>
                 </tr>
             </tbody>
@@ -30,6 +28,7 @@
 <script>
 export default {
     name: 'TableInvoices',
+    props:['orders'],
     data() {
         return {
             tableData: [

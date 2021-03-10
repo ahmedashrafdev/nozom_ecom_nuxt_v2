@@ -2,13 +2,9 @@
     <div class="ps-product__info">
         <module-product-info :product="product" />
 
-        <module-product-detail-desc :product="product" />
 
         <module-product-shopping :product="product" />
 
-        <module-product-detail-specification />
-
-        <module-product-detail-sharing />
     </div>
 </template>
 
@@ -31,11 +27,7 @@ export default {
         ModuleProductDetailSpecification,
         ModuleProductDetailSharing
     },
-    computed: {
-        ...mapState({
-            product: state => state.product.product
-        })
-    }
+    props:['product']
 };
 </script>
 

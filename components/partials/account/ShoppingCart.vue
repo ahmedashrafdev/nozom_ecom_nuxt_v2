@@ -48,7 +48,7 @@
                                     {{ $t('header.miniCart.discountPer' ,{ per : cart.percentOff}) }}
                                     <span>EGP{{ cart.discounVal }}</span>
                                 </p>
-                                <p v-else>
+                                <p v-else-if="cart.discounVal">
                                     {{ $t('header.miniCart.discount') }}
                                     <span>EGP{{ cart.discounVal }}</span>
                                 </p>

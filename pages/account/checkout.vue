@@ -10,7 +10,7 @@ import EditAddress from '~/components/partials/account/EditAddress';
 import Checkout from '~/components/partials/account/Checkout';
 
 export default {
-    middleware: 'authentication',
+    middleware: 'auth',
     components: {
         Checkout,
         EditAddress,

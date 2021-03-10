@@ -1,7 +1,7 @@
 <template lang="html">
     <div class="ps-form__orders ps-block--checkout-order">
         <h3>Your Order</h3>
-        <div class="ps-block--checkout-order">
+        <div class="ps-block--checkout-order" v-if="cart.subtotal">
             <div class="ps-block__content">
                 <figure>
                     <figcaption>

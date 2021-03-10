@@ -12,7 +12,7 @@ import EditAddress from '~/components/partials/account/EditAddress';
 
 export default {
     transition: 'zoom',
-    middleware: 'authentication',
+    middleware: 'auth',
     components: {
         EditAddress,
         Newsletters,

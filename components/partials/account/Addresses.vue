@@ -61,14 +61,22 @@ export default {
             this.$store.dispatch('user/getAddresses')
         },
         deleteAddress(id){
-            this.$store.dispatch('user/deleteAddress' , id).then(()=>{
+            this.$store.dispatch('user/deleteAddress' , id)
+            .then(()=>{
                 this.$notify({
                     group: 'addCartSuccess',
                     title: 'Success!',
                     text: `Address has been deleted successfully`
                 });
                 this.$store.dispatch('user/getAddresses')
-
+            })
+            .catch(()=>{
+                this.$notify({
+                    group: 'addCartSuccess',
+                    title: 'Success!',
+                    text: `Sorry ! this address attached to one of your orders`
+                });
+                this.$store.dispatch('user/getAddresses')
             })
         },
         

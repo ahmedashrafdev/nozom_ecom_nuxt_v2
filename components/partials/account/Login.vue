@@ -115,6 +115,7 @@ export default {
         },
         ...mapGetters({
             msg: 'ui/errMsg',
+            cartPyaload: 'myAuth/cartPayload',
         })
     },
     data() {
@@ -136,7 +137,6 @@ export default {
             this.$v.$touch();
             if (!this.$v.$invalid) {
                 const payload = {emailOrPhone : this.emailOrPhone , password :this.password}
-                console.log('asd')
                     this.$auth
                     .loginWith('local', { data: payload })
                     .then(()=>{
@@ -145,6 +145,18 @@ export default {
                             title: 'Success!',
                             text: `you have been logged in successfully`
                         });
+                        if(localStorage.getItem('product')){
+                            const payload = {
+                                product : localStorage.getItem('product'),
+                                qty : localStorage.getItem('qty')
+                            }
+                            this.$store.dispatch('myCart/create' , payload)
+                            .then(() => {
+                                localStorage.removeItem('product')
+                                localStorage.removeItem('qty')
+                            })
+                        }
+                        this
                         this.$store.dispatch('myCart/get')
                         this.isLoading = false
 

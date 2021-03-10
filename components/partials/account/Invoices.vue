@@ -14,7 +14,7 @@
                                 <h3>Invoices</h3>
                             </div>
                             <div class="ps-section__content">
-                                <TableInvoices />
+                                <TableInvoices :orders="orders"/>
                             </div>
                         </div>
                     </div>
@@ -27,9 +27,20 @@
 <script>
 import SideLayout from '@/components/partials/account/modules/SideLayout.vue';
 import TableInvoices from './modules/TableInvoices';
+import { mapGetters } from 'vuex';
 export default {
     name: 'InvoiceDetail',
     components: { TableInvoices, SideLayout },
+     computed: {
+        ...mapGetters({
+            orders : 'myCart/orders',
+            loading : 'myCart/loading'
+        }),
+
+    },
+    created(){
+        this.$store.dispatch('myCart/getOrders')
+    },
     
 };
 </script>

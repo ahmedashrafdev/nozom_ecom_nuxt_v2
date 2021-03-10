@@ -1,5 +1,5 @@
 <template lang="html">
-    <div class="ps-footer__links" v-if="!loading">
+    <!-- <div class="ps-footer__links" v-if="!loading">
         <p v-for="group in groups" :key="group.id">
             <strong>{{group.GroupName}}</strong>
             <nuxt-link
@@ -11,7 +11,7 @@
             </nuxt-link>
         </p>
     </div>
-    <div v-else>Loading</div>
+    <div v-else>Loading</div> -->
 </template>
 
 <script>

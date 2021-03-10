@@ -5,7 +5,7 @@
             <div class="ps-container">
                 <div class="ps-page__container">
                     <div class="ps-page__left" v-if="!loading">
-                        <product-detail-fullwidth v-if="product !== null" />
+                        <product-detail-fullwidth v-if="product !== null" :product="product" />
                     </div>
                     <div class="ps-page__left" v-else>
                         Loading
@@ -41,17 +41,17 @@ export default {
     },
 
     computed: {
-        ...mapState({
-            collections: state => state.collection.collections,
-        }),
         ...mapGetters({
             product:"myProduct/product",
-            loading:"myProduct/loading"
+            loading:"myProduct/loading",
+            qtys: 'ui/qtys',
+            weights: 'ui/weights',
         })
     },
     data() {
         return {
             productId: this.$route.params.id,
+            qty : 1,
             breadCrumb: null,
             pageLoading: true
         };

@@ -58,8 +58,8 @@
                     @end="handleFilterByPriceRagne"
                 />
                 <p>
-                    Price: EGP{{ priceRange[0].toFixed(2) }} - EGP{{
-                        priceRange[1].toFixed(2)
+                    Price: EGP{{ parseInt(priceRange[0]).toFixed(2) }} - EGP{{
+                        parseInt(priceRange[0]).toFixed(2)
                     }}
                 </p>
             </figure>
@@ -69,7 +69,7 @@
 
 <script>
 import { mapState , mapGetters } from 'vuex';
-
+import {addParamsToLocation } from '@/utilities/product-helper.js'
 export default {
     name: 'ShopWidget',
     watchQuery: true,
@@ -97,40 +97,18 @@ export default {
         handleGotoCategory(id) {
             let query = this.$route.query
             id == null ? delete query.GroupCode : query.GroupCode = id 
-            this.addParamsToLocation(query)
+            addParamsToLocation(query , this.$store , this.$route)
         },
         async handleFilterByPriceRagne() {
             const query = this.$route.query;
             query.PriceFrom = this.priceRange[0];
             query.PriceTo = this.priceRange[1];
-            this.addParamsToLocation(query)
+            addParamsToLocation(query , this.$store , this.$route)
         },
-        addParamsToLocation(params) {
-            this.$store.dispatch('myProduct/getProducts' , params)
-            params.page = 1;
-            this.getGroups(params)
-           
-            history.pushState(
-                {},
-                null,
-                this.$route.path +
-                '?' +
-                Object.keys(params)
-                    .map(key => {
-                    return (
-                        encodeURIComponent(key) + '=' + encodeURIComponent(params[key])
-                    )
-                    })
-                    .join('&')
-            )
-        },
-        getGroups(params){
-            const payload = params.GroupCode ? {FatherCode : params.GroupCode} : {}
-            this.$store.dispatch('collection/getShopGroups' , payload)
-        }
     },
     created(){
-        this.getGroups(this.$route.query)
+        const payload =  this.$route.query.GroupCode ? {FatherCode : this.$route.query.GroupCode} : {}
+        this.$store.dispatch('collection/getShopGroups' , payload)
     }
 };
 </script>

@@ -32,3 +32,25 @@ export function getListOfProductId(products) {
         return [];
     }
 }
+
+
+export function addParamsToLocation(params , store , route) {
+    store.dispatch('myProduct/getProducts' , params)
+    params.page = 1;
+    const payload = params.GroupCode ? {FatherCode : params.GroupCode} : {}
+    store.dispatch('collection/getShopGroups' , payload)
+   
+    history.pushState(
+        {},
+        null,
+        route.path +
+        '?' +
+        Object.keys(params)
+            .map(key => {
+            return (
+                encodeURIComponent(key) + '=' + encodeURIComponent(params[key])
+            )
+            })
+            .join('&')
+    )
+}

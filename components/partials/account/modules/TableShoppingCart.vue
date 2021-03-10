@@ -17,15 +17,11 @@
                 <td data-label="Price" class="price">EGP{{ product.POSPP }}</td>
                 <td data-label="Quantity">
                     <div class="form-group--number">
-                        <button class="up" @click.prevent="update({id : product.id , qty : product.qty + 1})">+</button>
+                        <!-- <button class="up" @click.prevent="update({id : product.id , qty : product.qty + 1})">+</button>
                         <button class="down" @click.prevent="update({id : product.id , qty : product.qty - 1})">-</button>
-                        <input
-                            class="form-control"
-                            type="text"
-                            disabled
-                            :placeholder="product.qty"
-                            :value="product.qty"
-                        />
+                         -->
+                        <v-select @change="update({id : product.id , qty : product.qty})"  v-if="!product.ByWeight" :items="qtys" v-model="product.qty"></v-select>
+                        <v-select @change="update({id : product.id , qty : product.qty})" v-else :items="weights" v-model="product.qty"></v-select>
                     </div>
                 </td>
                 <td data-label="Total">
@@ -56,6 +52,8 @@ export default {
      computed: {
         ...mapGetters({
             cart : 'myCart/cart',
+            qtys: 'ui/qtys',
+            weights: 'ui/weights',
             CouponLoading: 'myCart/couponLoading',
             loading : 'myCart/loading'
         }),

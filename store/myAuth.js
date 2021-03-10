@@ -2,6 +2,7 @@ import http from "../repositories/Http.js";
 
 export const state = () => ({
     isLoggedIn: false,
+    cartPayload: {},
     loggedInUser: {}
 });
 
@@ -11,7 +12,10 @@ export const mutations = {
     },
     setLoggedInUser(state, payload) {
         state.loggedInUser = payload;
-    }
+    },
+    setCartPayload(state, payload) {
+        state.cartPayload = payload;
+    },
 };
 
 export const getters = {

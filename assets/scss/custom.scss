@@ -54,6 +54,8 @@
 .ps-product .ps-product__title{
     color:#333;
     font-family: Cairo;
+    height: 60px;
+    overflow: hidden;
 }
 .header--standard .ps-form--quick-search button{
     background-color: $color-1st;
@@ -87,3 +89,28 @@
     background-color: #eff1f2;
 }
 
+.w-full{
+    width: 100% !important;
+}
+.w-32{
+    width: 200px;
+}
+.w-8{
+    width: 100px;
+}
+.ps-product--detail .ps-product__header .ps-product__info{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.items-center{
+    align-items: center;
+}
+.cart-btn{
+    padding: 10px 0;
+    background-color: $color-1st;
+    display: inline-block;
+    padding: 10px 20px;
+    color: #fff;
+    margin-right: 10px;
+}

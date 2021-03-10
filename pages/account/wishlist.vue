@@ -11,6 +11,7 @@ import Wishlist from '~/components/partials/account/Wishlist';
 import HeaderMobile from '~/components/shared/mobile/HeaderMobile';
 
 export default {
+    middleware: 'auth',
     transition: 'zoom',
     components: {
         HeaderMobile,

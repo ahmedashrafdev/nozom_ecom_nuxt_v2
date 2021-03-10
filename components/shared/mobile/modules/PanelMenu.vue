@@ -20,20 +20,7 @@
             </div>
             <v-list class="menu--mobile">
                 <template v-for="menuItem in menu">
-                    <v-list-group v-if="menuItem.subMenu" no-action>
-                        <template v-slot:activator>
-                            <v-list-item-content>
-                                <nuxt-link
-                                    :to="menuItem.url"
-                                    @click="handleClosePanel"
-                                >
-                                    {{ $t(menuItem.text) }}
-                                </nuxt-link>
-                            </v-list-item-content>
-                        </template>
-                        <mobile-submenu :menu="menuItem.subMenu" />
-                    </v-list-group>
-                    <v-list-item v-else>
+                    <v-list-item>
                         <v-list-item-content>
                             <nuxt-link
                                 :to="menuItem.url"
@@ -44,12 +31,25 @@
                         </v-list-item-content>
                     </v-list-item>
                 </template>
+                <template v-for="group in groups">
+                    <v-list-item>
+                        <v-list-item-content>
+                            <a
+                                @click="goToGroup(group.id)"
+                            >
+                                {{ $t(group.GroupName) }}
+                            </a>
+                        </v-list-item-content>
+                    </v-list-item>
+                </template>
             </v-list>
         </div>
     </div>
 </template>
 
 <script>
+import {addParamsToLocation } from '@/utilities/product-helper.js'
+import { mapGetters } from 'vuex';
 import { mainMenu } from '~/static/data/menu.json';
 import MobileSubmenu from '~/components/shared/mobile/modules/MobileSubmenu';
 import MobileCurrencySwitcher from '~/components/shared/mobile/modules/MobileCurrencySwitcher';
@@ -61,16 +61,29 @@ export default {
         MobileCurrencySwitcher,
         MobileSubmenu
     },
+
     computed: {
-        menu() {
+         ...mapGetters({
+            groups: 'collection/featuredGroups',
+            loading: 'collection/loading',
+        }),
+         menu() {
             return mainMenu;
         }
     },
     methods: {
         handleClosePanel() {
-            console.log('test');
             this.$store.commit('app/setCurrentDrawerContent', null);
             this.$store.commit('app/setAppDrawer', false);
+        },
+        goToGroup(code){
+                this.$route.query.GroupCode = code
+                if(this.$route.path == '/shop'){
+                    addParamsToLocation(this.$route.query , this.$store , this.$route)
+                } else {
+                    this.$router.push({path : '/shop' , query : this.$route.query} )
+                }
+                this.handleClosePanel()
         }
     }
 };

@@ -27,7 +27,7 @@
 
             <a
                 class="navigation__item"
-                @click.prevent="handleOpenDrawer('cart')"
+                @click.prevent="$router.push('/account/shopping-cart')"
             >
                 <i class="icon-bag2"></i>
                 <span> Cart</span>

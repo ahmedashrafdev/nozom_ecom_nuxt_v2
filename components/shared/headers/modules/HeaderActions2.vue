@@ -2,7 +2,7 @@
     <div class="header__actions">
         <nuxt-link to="/account/wishlist" class="header__extra">
             <i class="icon-heart"></i>
-            <span>
+            <span @click.prevent="test">
                 <i>{{wishlistLength}}</i>
             </span>
         </nuxt-link>
@@ -77,14 +77,18 @@ export default {
     },
      methods: {
         async handleLogout() {
+            this.$store.commit('myCart/setCart' , [])
             await this.$auth.logout();
             this.$notify({
                 group: 'addCartSuccess',
                 title: 'Success!',
                 text: `Logged out  successfully`
             });
+        },
+        test(){
+            console.log(this.$auth);
         }
-    }
+    },
 };
 </script>
 

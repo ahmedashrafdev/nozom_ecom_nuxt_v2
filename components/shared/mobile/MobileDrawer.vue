@@ -18,7 +18,7 @@ export default {
     name: 'MobileDrawer',
     components: { PanelSearch, PanelMenu, PanelCategories, PanelShoppingCart },
     computed: {
-        ...mapState({
+    ...mapState({
             appDrawer: state => state.app.appDrawer,
             currentDrawerContent: state => state.app.currentDrawerContent
         }),

@@ -4,61 +4,13 @@
             <nuxt-link :to="`/product/${product.id}`">
                 <img
                     :src="product.ItemImage"
-                    alt="martfury"
+                    alt="product.ItemName"
                 />
             </nuxt-link>
             <div v-if="product.NewPOSPP" class="ps-product__badge">sale</div>
-            <ul class="ps-product__actions">
-                <li>
-                    <a
-                        to="#"
-                        data-toggle="tooltip"
-                        data-placement="top"
-                        title="Add to cart"
-                        @click.prevent="handleAddToCart"
-                    >
-                        <i class="icon-bag2"></i>
-                    </a>
-                </li>
-                <li>
-                    <a
-                        to="#"
-                        data-toggle="tooltip"
-                        data-placement="top"
-                        title="Quick View"
-                        @click.prevent="quickviewDialog = true"
-                    >
-                        <i class="icon-eye"></i>
-                    </a>
-                </li>
-                <li>
-                    <a
-                        href="#"
-                        data-toggle="tooltip"
-                        data-placement="top"
-                        title="Add to wishlist"
-                        @click.prevent="handleAddItemToWishlist"
-                    >
-                        <i class="icon-heart"></i>
-                    </a>
-                </li>
-                <li>
-                    <a
-                        to="#"
-                        data-toggle="tooltip"
-                        data-placement="top"
-                        title="Compare"
-                        @click.prevent="handleAddItemToCompare"
-                    >
-                        <i class="icon-chart-bars"></i>
-                    </a>
-                </li>
-            </ul>
+           
         </div>
         <div class="ps-product__container">
-            <nuxt-link to="/shop" class="ps-product__vendor">
-                {{ product.vendor }}
-            </nuxt-link>
             <div class="ps-product__content">
                 <nuxt-link
                     :to="`/product/${product.id}`"
@@ -66,10 +18,6 @@
                 >
                     {{ product.ItemName }}
                 </nuxt-link>
-                <div class="ps-product__rating">
-                    <rating />
-                    <span>4</span>
-                </div>
                 <p
                     v-if="product.NewPOSPP"
                     class="ps-product__price sale"
@@ -98,23 +46,42 @@
                 <p v-else class="ps-product__price">EGP{{ product.POSPP }}</p>
                 <!-- <p class="ps-product__price">${{ product.POSPP }}</p> -->
             </div>
+             <ul class="actions">
+                <v-select v-if="!product.ByWeight" :items="qtys" v-model="qty"></v-select>
+                <v-select v-else :items="weights" v-model="qty"></v-select>
+                <v-flex class="items-center">
+                    <li>
+                        <a
+                            to="#"
+                            data-toggle="tooltip"
+                            data-placement="top"
+                            class="cart-btn"
+                            title="Add to cart"
+                            @click.prevent="handleAddToCart"
+                        >
+                            <i class="icon-bag2"></i>
+                            {{$t('add_to_cart')}}
+                        </a>
+                    </li>
+                    <li>
+                        <a
+                            href="#"
+                            data-toggle="tooltip"
+                            data-placement="top"
+                            title="Add to wishlist"
+                            @click.prevent="handleAddItemToWishlist"
+                        >
+                            <i class="icon-heart"></i>
+                        </a>
+                    </li>
+
+                </v-flex>
+            </ul>
         </div>
-        <v-dialog v-model="quickviewDialog" width="1200">
-            <div class="ps-dialog">
-                <a
-                    class="ps-dialog__close"
-                    @click.prevent="quickviewDialog = false"
-                >
-                    <i class="icon icon-cross"></i>
-                </a>
-                <product-quickview :product="product" />
-            </div>
-        </v-dialog>
     </div>
 </template>
 <script>
-import { mapState } from 'vuex';
-import { baseUrl } from '~/repositories/Repository';
+import { mapGetters } from 'vuex';
 import Rating from '../Rating';
 import ProductQuickview from '~/components/elements/detail/ProductQuickview';
 
@@ -129,6 +96,10 @@ export default {
     },
 
     computed: {
+        ...mapGetters({
+            qtys: 'ui/qtys',
+            weights: 'ui/weights',
+        }),
         isSale() {
             if (this.product.is_sale) {
                 return true;
@@ -139,6 +110,7 @@ export default {
 
     data: () => ({
         productRating: 5,
+        qty : 1,
         productModal: false,
         productPreload: true,
         isImageLoaded: false,
@@ -147,7 +119,7 @@ export default {
     methods: {
         handleAddToCart() {
             if(this.$auth.loggedIn){
-            this.$store.dispatch('myCart/create', {product: this.product.id})
+            this.$store.dispatch('myCart/create', {product: this.product.id , qty :this.qty})
             .then(() => {
                 this.$notify({
                     group: 'addCartSuccess',
@@ -157,11 +129,14 @@ export default {
             })
             } else {
                 this.$notify({
-                        group: 'addCartSuccess',
-                        title: 'Success!',
-                        text: `Please Login To Continue`
-                    });
-                    this.$router.push('account/login')
+                    group: 'addCartSuccess',
+                    title: 'Success!',
+                    text: `Please Login To Continue`
+                });
+                localStorage.setItem('product' , this.product.id )
+                localStorage.setItem('qty' , this.qty )
+
+                this.$router.push('/account/login')
             }
         },
 
@@ -181,35 +156,10 @@ export default {
                     title: 'Success!',
                     text: `Please Login To Continue`
                 });
-                this.$router.push('account/login')
+                this.$router.push('/account/login')
             }
         },
 
-        handleAddItemToCompare() {
-            let item = {
-                id: this.product.id
-            };
-            this.$store.dispatch('compare/addItemToCompare', item);
-            this.$notify({
-                group: 'addCartSuccess',
-                title: 'Add to compare!',
-                text: `${this.product.ItemName} has been added to your compare !`
-            });
-        },
-
-        async getCartProduct(products) {
-            let listOfIds = [];
-            products.forEach(item => {
-                listOfIds.push(item.id);
-            });
-            const response = await this.$store.dispatch(
-                'product/getCartProducts',
-                listOfIds
-            );
-            if (response) {
-                this.$store.commit('cart/setLoading', false);
-            }
-        }
     }
 };
 </script>
